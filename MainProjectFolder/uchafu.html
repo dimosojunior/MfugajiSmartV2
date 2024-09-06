@@ -1,0 +1,102 @@
+
+mother fucker i don't see any where that you have looped all users found in KumbushoLaChanjo model and then check for each user his/her selected chanjos?
+
+i'm using django and here i have the following models;
+i have a model called 'AinaZaChanjo' which stores all chanjos and other model called 'KumbushoLaChanjo' look like this;
+
+class AinaZaChanjo(models.Model):
+    
+    JinaLaChanjo = models.CharField(verbose_name="Jina La Chanjo",max_length=200, blank=False,null=False)
+    Kutolewa = models.IntegerField(verbose_name="Hutolewa Siku Ya Ngapi ?",blank=True,null=True)
+    MaelezoYaChanjo = models.TextField(verbose_name="Maelezo Ya Chanjo",max_length=10000, blank=True,null=True)
+    Created = models.DateTimeField(auto_now_add=True)
+    Updated = models.DateTimeField(auto_now=True)
+    
+    def __str__(self):
+        return f"{self.JinaLaChanjo} Siku Ya {self.Kutolewa}"
+    
+    class Meta:
+        verbose_name_plural = "Aina Za Chanjo"
+
+
+
+
+class KumbushoLaChanjo(models.Model):
+      
+    AinaYaKuku = models.ForeignKey(AinaZaKuku, verbose_name="Aina Ya Kuku", blank=True,null=True,on_delete=models.CASCADE)
+    #UmriWaKuku = models.ForeignKey(UmriWaKuku, verbose_name="Umri Wa Kuku", blank=False,null=False,on_delete=models.CASCADE)
+    AinaYaChanjo = models.ManyToManyField(AinaZaChanjo, verbose_name="Aina Ya Chanjo", blank=True)
+
+    #--------HIZI ZINZJIJAZA ZENYEWE KWENYE VIEW------------------
+    UmriWaKukuKwaSiku = models.CharField(verbose_name="Umri Wa Kuku Kwa Siku",max_length=500, blank=True,null=True)
+    UmriWaKukuKwaWiki = models.CharField(verbose_name="Umri Wa Kuku Kwa Wiki",max_length=500, blank=True,null=True)
+
+    phone = models.CharField(verbose_name="Namba Yako ya Simu",max_length=13, blank=True,null=True)
+    username = models.CharField(verbose_name="Jina Lako Kamili",max_length=500, blank=True,null=True)
+    email = models.EmailField(verbose_name="Email Yako",max_length=200, blank=True,null=True)
+    Location = models.CharField(verbose_name="Mahali",max_length=200, blank=True,null=True)
+
+    Created = models.DateTimeField(auto_now_add=True)
+    Updated = models.DateTimeField(auto_now=True)
+
+    time_left = models.IntegerField(blank=True, null=True)
+    is_red = models.BooleanField(default=False)
+    day_is_reached = models.BooleanField(default=False)
+    message_is_sent = models.BooleanField(default=False)
+    
+    
+    def __str__(self):
+        return f"{self.username} Simu {self.phone}"
+    
+    class Meta:
+        verbose_name_plural = "Kumbusho La Chanjo"
+
+
+    @property
+    def time_left(self):
+        # Example calculation for time left
+        time_elapsed = (timezone.now() - self.Created).days
+        # print(f"Time Now: {timezone.now()}")
+        # print(f"Time Since {time_elapsed} days")
+        # print(f"Siku Za Kukumbushwa {self.SikuZaKukumbushwa} days")
+        selected_chanjo = self.AinaYaChanjo.all()
+
+        if selected_chanjo:
+            for item in selected_chanjo:
+                chanjo_name = item.JinaLaChanjo
+                Hutolewa_Siku = item.Kutolewa
+                print(f"{self.username}, chanjo_name: {chanjo_name}, Hutolewa Siku: {Hutolewa_Siku}")
+                # Assuming SikuZaKukumbushwa is the number of days, directly subtract time_elapsed
+                remaining_days = Hutolewa_Siku - time_elapsed
+                #print(f"Hutolewa: {Hutolewa_Siku}  - time_elapsed: {time_elapsed} = {remaining_days}")
+
+                # Update day_is_reached to True if remaining_days is equal to 1
+                if remaining_days == 1 and not self.day_is_reached:
+                    self.day_is_reached = True
+                    self.save(update_fields=['day_is_reached'])
+
+                return remaining_days
+        else:
+            chanjo_name = "Hakuna Chanjo inayofaa kwa siku hii"
+            print(f"Hakuna Chanjo inayofaa kwa siku hii")
+
+    @property
+    def is_red(self):
+        #background iwe red endapo ukichukua siku alizotaka kukumbushwa - muda wa sasa
+        #sawasawa na siku 1 background iwe nyekundu, maana yake tunamkumbusha user
+        #siku moja kabla sa siku aliyoweka
+        
+        return self.time_left == 1
+so in KumbushoLaChanjo model i have a field called 'AinaYaChanjo' which is a manytomany field to the another model called AinaZaChanjo, so this means that one user which is stored in this model 'KumbushoLaChanjo' may has multiple selection of chanjos that stored in AinaZaChanjo model and note that every chanjo that in AinaZaChanjo model has its specific provision day called "Kutolewa" so for eaxmple, one user can choose select the following chanjos; Chanjo 1 Kutolewa 7, Chanjo 2 Kutolewa 14, and Chanjo 3 Kutolewa 21.
+So my problem is in my codes i'm trying first to get the interval from when now time minus the time when this user was created in this model 'KumbushoLaChanjo', after getting this time;
+then i need to loop all users within this model 'KumbushoLaChanjo', then for each user check the chanjo that were selected by each user with corresiponding Kutolewa value from AinaZaChanjo model, then i need to do the following,
+for eaxmple user was selected 3 types of chanjos, the value of Kutolewa for the first chanjo is 7, the value of Kutolewa for the second chanjo is 14, the value of Kutolewa for the third chanjo is 21. then for each user and for each selected chanjos take each value of Kutolewa for each chanjo and for each user minus time_elapsed to get remained_days value., so for eaxmple for the one user that i have mentioned  above,and let say the value of time_elapsed =6, will be like this;
+    7-6=1, for the first chanjo
+    14-6=8, for the second chanjo
+    21-6=15, for the third chanjo
+then check if the value of remaining_days == 1 even for one chanjo may be for the first, second or third, set is_red=True and do this for all users that can be obtained from this model 'KumbushoLaChanjo'.
+
+i don't want to use any task scheduling to set is_red true bacauese i have already a properties that check if time_left == 1, it sets is_red=True
+
+
+
