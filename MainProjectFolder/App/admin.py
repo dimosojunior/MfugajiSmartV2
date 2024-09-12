@@ -126,7 +126,7 @@ class KumbushoLaChanjoAdmin(ImportExportModelAdmin):
 
 @admin.register(KumbushoLaMabadilikoYaLishe)
 class KumbushoLaMabadilikoYaLisheAdmin(ImportExportModelAdmin):
-    list_display = ["id","username","phone","LengoLaKufuga","KundiLaKukuWake","Created","Updated"]
+    list_display = ["id","username","time_left","is_red","phone","LengoLaKufuga","KundiLaKukuWake","Created","Updated"]
     list_filter =["Created","Updated"]
     search_fields = ["username"]
 
@@ -233,6 +233,13 @@ class UnitZaVyakulaAdmin(ImportExportModelAdmin):
     list_display = ["id", "Unit", "Created","Updated"]
     list_filter =["Created","Updated"]
     search_fields = ["Unit"]
+
+
+@admin.register(Wanunuzi)
+class WanunuziAdmin(ImportExportModelAdmin):
+    list_display = ["id", "username","phone","email","Mkoa","Wilaya", "Created","Updated"]
+    list_filter =["Created","Updated","Mkoa","Wilaya"]
+    search_fields = ["username"]
 
 @admin.register(Notification)
 class NotificationAdmin(ImportExportModelAdmin):
@@ -345,6 +352,44 @@ class EmailSendCount_KumbushoUsafishajiBandaAdmin(ImportExportModelAdmin):
     list_display = ["id", "username", "count","last_sent"]
     list_filter =["last_sent"]
     search_fields = ["username"]
+
+
+@admin.register(EmailSendCount_KumbushoLaMabadilikoYaLishe)
+class EmailSendCount_KumbushoLaMabadilikoYaLisheAdmin(ImportExportModelAdmin):
+    list_display = ["id", "username", "count","last_sent"]
+    list_filter =["last_sent"]
+    search_fields = ["username"]
+
+@admin.register(EmailSendCount_DukaLako)
+class EmailSendCount_DukaLakoAdmin(ImportExportModelAdmin):
+    list_display = ["id", "username", "count","last_sent"]
+    list_filter =["last_sent"]
+    search_fields = ["username"]
+
+@admin.register(EmailSendCount_MyUser)
+class EmailSendCount_MyUserAdmin(ImportExportModelAdmin):
+    list_display = ["id", "username", "count","last_sent"]
+    list_filter =["last_sent"]
+    search_fields = ["username"]
+
+
+@admin.register(EmailSendCount_Maoni)
+class EmailSendCount_MaoniAdmin(ImportExportModelAdmin):
+    list_display = ["id", "username", "count","last_sent"]
+    list_filter =["last_sent"]
+    search_fields = ["username"]
+
+@admin.register(EmailSendCount_Wanunuzi)
+class EmailSendCount_WanunuziAdmin(ImportExportModelAdmin):
+    list_display = ["id", "username", "count","last_sent"]
+    list_filter =["last_sent"]
+    search_fields = ["username"]
+
+@admin.register(HistoriaZaJumbeZaWanunuzi)
+class HistoriaZaJumbeZaWanunuziAdmin(ImportExportModelAdmin):
+    list_display = ["id", "JinaLaMnunuzi", "NambaYaSimuYaMnunuzi","Mkoa","Wilaya","last_sent"]
+    list_filter =["Mkoa","Wilaya"]
+    search_fields = ["JinaLaMnunuzi"]
 
 
 

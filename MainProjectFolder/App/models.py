@@ -430,6 +430,7 @@ class DukaLako(models.Model):
 
     Status = models.ForeignKey(UserStatus, verbose_name="Status",on_delete=models.CASCADE, blank=True,null=True)
     
+    TickStatus = models.CharField(verbose_name="Tick Status",max_length=500, blank=True,null=True)
     phone = models.CharField(verbose_name="Namba Yako ya Simu",max_length=13, blank=True,null=True)
     username = models.CharField(verbose_name="Jina Lako Kamili",max_length=500, blank=True,null=True)
     UserRole = models.CharField(verbose_name="Aina Ya Mtumiaji",max_length=500, blank=True,null=True)
@@ -452,7 +453,26 @@ class DukaLako(models.Model):
 
 
 
-
+class Wanunuzi(models.Model):
+    Message = models.TextField(max_length=10000, blank=True,null=True)
+    Mkoa = models.ForeignKey(Mikoa, verbose_name="Mkoa",on_delete=models.CASCADE, blank=True,null=True)
+    Wilaya = models.CharField(verbose_name="Wilaya",max_length=100, blank=True,null=True)
+    phone = models.CharField(verbose_name="Namba Yako ya Simu",max_length=13, blank=True,null=True)
+    username = models.CharField(verbose_name="Jina Lako Kamili",max_length=100, blank=True,null=True)
+    email = models.EmailField(verbose_name="Email Yako",max_length=200, blank=True,null=True)
+    Location = models.CharField(verbose_name="Mahali",max_length=200, blank=True,null=True)
+    company_name = models.CharField(verbose_name="Kampuni/Jina La Biashara Yako",max_length=500, blank=True,null=True)
+    profile_image = models.ImageField(upload_to='media/',verbose_name="Picha Yako", blank=True, null=True)
+    is_checked = models.BooleanField(blank=True,null=True, default=False)
+    Created = models.DateTimeField(auto_now_add=True)
+    Updated = models.DateTimeField(auto_now=True)
+    
+    
+    def __str__(self):
+        return f"{self.username} Simu {self.phone}"
+    
+    class Meta:
+        verbose_name_plural = "Wanunuzi"
 
 
 
@@ -462,13 +482,13 @@ class Maoni(models.Model):
     
     
     phone = models.CharField(verbose_name="Namba Yako ya Simu",max_length=13, blank=True,null=True)
-    username = models.CharField(verbose_name="Jina Lako Kamili",max_length=13, blank=True,null=True)
+    username = models.CharField(verbose_name="Jina Lako Kamili",max_length=200, blank=True,null=True)
     email = models.EmailField(verbose_name="Email Yako",max_length=200, blank=True,null=True)
     Location = models.CharField(verbose_name="Mahali",max_length=200, blank=True,null=True)
     company_name = models.CharField(verbose_name="Kampuni/Jina La Biashara Yako",max_length=500, blank=True,null=True)
     profile_image = models.ImageField(upload_to='media/',verbose_name="Picha Yako", blank=True, null=True)
     LevelImage = models.ImageField(upload_to='media/',verbose_name="Picha Ya Nyota", blank=True, null=True)
-    
+    is_checked = models.BooleanField(blank=True,null=True, default=False)
     Created = models.DateTimeField(auto_now_add=True)
     Updated = models.DateTimeField(auto_now=True)
     
@@ -1039,17 +1059,33 @@ class KumbushoLaMabadilikoYaLishe(models.Model):
       
     
     #--------HIZI ZINZJIJAZA ZENYEWE KWENYE VIEW------------------
+    MudaWaKumbusho_Choices = (
+            ('12:00 asubuhi -> 6:00 mchana', '12:00 asubuhi -> 6:00 mchana'),
+            ('6:00 mchana -> 12:00 jioni', '6:00 mchana -> 12:00 jioni'),
+
+        )
+    MudaWaKumbusho = models.CharField(choices=MudaWaKumbusho_Choices, verbose_name="Muda Wa Kukumbushwa ?",max_length=500, blank=True,null=True)
     Lengo_Choices = (
-            ('Nafuga kwa ajili ya mayai', 'Nafuga kwa ajili ya mayai'),
-            ('Nafuga kwa ajili ya nyama', 'Nafuga kwa ajili ya nyama'),
+            ('Kwaajili Ya Mayai', 'Kwaajili Ya Mayai'),
+            ('Kwaajili Ya Nyama', 'Kwaajili Ya Nyama'),
 
         )
     LengoLaKufuga = models.CharField(choices=Lengo_Choices, verbose_name="Lengo La Kufuga Hao Kuku ?",max_length=500, blank=True,null=True)
+    MfumoWaKufuga_Choices = (
+            ('Shadidi (mfumo wa ndani tu)', 'Shadidi (mfumo wa ndani tu)'),
+            ('Nusu huria (mfumo wa ndani na nje)', 'Nusu huria (ndani na nje)'),
+            ('Huria (mfumo wa nje)', 'Huria (mfumo wa nje)')
+
+        )
+    MfumoWaKufuga = models.CharField(choices=MfumoWaKufuga_Choices, verbose_name="Mfumo Wa Kufuga Unaotumia ?",max_length=500, blank=True,null=True)
     KundiLaKukuWake = models.CharField(verbose_name="Kundi La Kuku Wake",max_length=500, blank=True,null=True)
 
     AinaYaKuku = models.CharField(verbose_name="Aina Ya Kuku",max_length=500, blank=True,null=True)
     UmriWaKukuKwaSiku = models.IntegerField(verbose_name="Umri Wa Kuku Kwa Siku", blank=True,null=True)
     UmriWaKukuKwaWiki = models.IntegerField(verbose_name="Umri Wa Kuku Kwa Wiki", blank=True,null=True)
+
+    UmriWaKukuKwaSiku_KwaMahesabuTu = models.IntegerField(verbose_name="Umri Wa Kuku Kwa Siku Kwa Mahesabu Tu", blank=True,null=True)
+    UmriWaKukuKwaWiki_KwaMahesabuTu = models.IntegerField(verbose_name="Umri Wa Kuku Kwa Wiki Kwa Mahesabu Tu", blank=True,null=True)
 
     phone = models.CharField(verbose_name="Namba Yako ya Simu",max_length=13, blank=True,null=True)
     username = models.CharField(verbose_name="Jina Lako Kamili",max_length=500, blank=True,null=True)
@@ -1059,11 +1095,682 @@ class KumbushoLaMabadilikoYaLishe(models.Model):
     Created = models.DateTimeField(auto_now_add=True)
     Updated = models.DateTimeField(auto_now=True)
 
+    time_left = models.IntegerField(blank=True, null=True)
+    is_red = models.BooleanField(default=False)
+    day_is_reached = models.BooleanField(default=False)
+    message_is_sent = models.BooleanField(default=False)
+
     def __str__(self):
         return f"{self.username} Lengo: {self.LengoLaKufuga}"
     
     class Meta:
         verbose_name_plural = "Kumbusho La Mabadiliko Ya Lishe"
+
+
+    @property
+    def time_left(self):
+        # Example calculation for time left
+        time_elapsed = (timezone.now() - self.Created).days
+        AinaYaKuku = self.AinaYaKuku
+        UmriWaKukuKwaWiki = self.UmriWaKukuKwaWiki_KwaMahesabuTu
+        UmriWaKukuKwaSiku = self.UmriWaKukuKwaSiku_KwaMahesabuTu
+        Remained_Days_Per_Period = 0
+        remaining_days = 0
+
+        #-------------KUKU MWENYE WIKI 1------------
+
+        if (AinaYaKuku == "Kuku aina ya Kroila" and UmriWaKukuKwaSiku >= 0 and UmriWaKukuKwaSiku <= 7) or (AinaYaKuku == "Kuku wa Mayai (Layers)" and UmriWaKukuKwaSiku >= 0 and UmriWaKukuKwaSiku <= 7) or (AinaYaKuku == "Kuku aina ya Sasso" and UmriWaKukuKwaSiku >= 0 and UmriWaKukuKwaSiku <= 7) or (AinaYaKuku == "Kuku aina ya Tanbro" and UmriWaKukuKwaSiku >= 0 and UmriWaKukuKwaSiku <= 7) or (AinaYaKuku == "Kuku aina ya Kenbro" and UmriWaKukuKwaSiku >= 0 and UmriWaKukuKwaSiku <= 7):
+            Remained_Days_Per_Period = 21 #28-7=21
+            remaining_days = Remained_Days_Per_Period - time_elapsed
+            print(f"remaining_days: {remaining_days}")
+
+            # Update day_is_reached to True if remaining_days is equal to 1
+            if remaining_days == 0 and not self.day_is_reached:
+                self.day_is_reached = True
+                self.save(update_fields=['day_is_reached'])
+
+
+            return remaining_days
+
+        #--------------------------KUKU WA WIKI 2---------------------
+        if (AinaYaKuku == "Kuku aina ya Kroila" and UmriWaKukuKwaSiku >= 8 and UmriWaKukuKwaSiku <= 14) or (AinaYaKuku == "Kuku wa Mayai (Layers)" and UmriWaKukuKwaSiku >= 8 and UmriWaKukuKwaSiku <= 14) or (AinaYaKuku == "Kuku aina ya Sasso" and UmriWaKukuKwaSiku >= 8 and UmriWaKukuKwaSiku <= 14) or (AinaYaKuku == "Kuku aina ya Tanbro" and UmriWaKukuKwaSiku >= 8 and UmriWaKukuKwaSiku <= 14) or (AinaYaKuku == "Kuku aina ya Kenbro" and UmriWaKukuKwaSiku >= 8 and UmriWaKukuKwaSiku <= 14):
+            Remained_Days_Per_Period = 14 #28-7=21
+            remaining_days = Remained_Days_Per_Period - time_elapsed
+            print(f"remaining_days: {remaining_days}")
+
+            # Update day_is_reached to True if remaining_days is equal to 1
+            if remaining_days == 0 and not self.day_is_reached:
+                self.day_is_reached = True
+                self.save(update_fields=['day_is_reached'])
+
+
+            return remaining_days
+
+        #------------------------KUKU WA WIKI 3----------------
+        #--------------------------KUKU WA WIKI 3---------------------
+        if (AinaYaKuku == "Kuku aina ya Kroila" and UmriWaKukuKwaSiku >= 15 and UmriWaKukuKwaSiku <= 21) or (AinaYaKuku == "Kuku wa Mayai (Layers)" and UmriWaKukuKwaSiku >= 15 and UmriWaKukuKwaSiku <= 21) or (AinaYaKuku == "Kuku aina ya Sasso" and UmriWaKukuKwaSiku >= 15 and UmriWaKukuKwaSiku <= 21) or (AinaYaKuku == "Kuku aina ya Tanbro" and UmriWaKukuKwaSiku >= 15 and UmriWaKukuKwaSiku <= 21) or (AinaYaKuku == "Kuku aina ya Kenbro" and UmriWaKukuKwaSiku >= 15 and UmriWaKukuKwaSiku <= 21):
+            Remained_Days_Per_Period = 7 #28-7=21
+            remaining_days = Remained_Days_Per_Period - time_elapsed
+            print(f"remaining_days: {remaining_days}")
+
+            # Update day_is_reached to True if remaining_days is equal to 1
+            if remaining_days == 0 and not self.day_is_reached:
+                self.day_is_reached = True
+                self.save(update_fields=['day_is_reached'])
+
+
+            return remaining_days
+
+        #-----------------KUKU WA WIKI 4--------------
+        if (AinaYaKuku == "Kuku aina ya Kroila" and UmriWaKukuKwaSiku >= 22 and UmriWaKukuKwaSiku <= 28) or (AinaYaKuku == "Kuku wa Mayai (Layers)" and UmriWaKukuKwaSiku >= 22 and UmriWaKukuKwaSiku <= 28) or (AinaYaKuku == "Kuku aina ya Sasso" and UmriWaKukuKwaSiku >= 22 and UmriWaKukuKwaSiku <= 28) or (AinaYaKuku == "Kuku aina ya Tanbro" and UmriWaKukuKwaSiku >= 22 and UmriWaKukuKwaSiku <= 28) or (AinaYaKuku == "Kuku aina ya Kenbro" and UmriWaKukuKwaSiku >= 22 and UmriWaKukuKwaSiku <= 28):
+            Remained_Days_Per_Period = 1 #28-7=21
+            remaining_days = Remained_Days_Per_Period - time_elapsed
+            print(f"remaining_days: {remaining_days}")
+
+            # Update day_is_reached to True if remaining_days is equal to 1
+            if remaining_days == 0 and not self.day_is_reached:
+                self.day_is_reached = True
+                self.save(update_fields=['day_is_reached'])
+
+
+            return remaining_days
+
+        #---------------KUKU WA WIKI 5------------
+        if (AinaYaKuku == "Kuku aina ya Kroila" and UmriWaKukuKwaSiku >= 29 and UmriWaKukuKwaSiku <= 35) or (AinaYaKuku == "Kuku wa Mayai (Layers)" and UmriWaKukuKwaSiku >= 29 and UmriWaKukuKwaSiku <= 35) or (AinaYaKuku == "Kuku aina ya Sasso" and UmriWaKukuKwaSiku >= 29 and UmriWaKukuKwaSiku <= 35) or (AinaYaKuku == "Kuku aina ya Tanbro" and UmriWaKukuKwaSiku >= 29 and UmriWaKukuKwaSiku <= 35) or (AinaYaKuku == "Kuku aina ya Kenbro" and UmriWaKukuKwaSiku >= 29 and UmriWaKukuKwaSiku <= 35):
+            Remained_Days_Per_Period = 84 #28-7=21
+            remaining_days = Remained_Days_Per_Period - time_elapsed
+            print(f"remaining_days: {remaining_days}")
+
+            # Update day_is_reached to True if remaining_days is equal to 1
+            if remaining_days == 0 and not self.day_is_reached:
+                self.day_is_reached = True
+                self.save(update_fields=['day_is_reached'])
+
+
+            return remaining_days
+
+        #--------------KUKU WA WIKI 6---------------
+        if (AinaYaKuku == "Kuku aina ya Kroila" and UmriWaKukuKwaSiku >= 36 and UmriWaKukuKwaSiku <= 42) or (AinaYaKuku == "Kuku wa Mayai (Layers)" and UmriWaKukuKwaSiku >= 36 and UmriWaKukuKwaSiku <= 42) or (AinaYaKuku == "Kuku aina ya Sasso" and UmriWaKukuKwaSiku >= 36 and UmriWaKukuKwaSiku <= 42) or (AinaYaKuku == "Kuku aina ya Tanbro" and UmriWaKukuKwaSiku >= 36 and UmriWaKukuKwaSiku <= 42) or (AinaYaKuku == "Kuku aina ya Kenbro" and UmriWaKukuKwaSiku >= 36 and UmriWaKukuKwaSiku <= 42):
+            Remained_Days_Per_Period = 77 #28-7=21
+            remaining_days = Remained_Days_Per_Period - time_elapsed
+            print(f"remaining_days: {remaining_days}")
+
+            # Update day_is_reached to True if remaining_days is equal to 1
+            if remaining_days == 0 and not self.day_is_reached:
+                self.day_is_reached = True
+                self.save(update_fields=['day_is_reached'])
+
+
+            return remaining_days
+
+        #-------------------KUKU WA WIKI 7---------------
+        if (AinaYaKuku == "Kuku aina ya Kroila" and UmriWaKukuKwaSiku >= 43 and UmriWaKukuKwaSiku <= 49) or (AinaYaKuku == "Kuku wa Mayai (Layers)" and UmriWaKukuKwaSiku >= 43 and UmriWaKukuKwaSiku <= 49) or (AinaYaKuku == "Kuku aina ya Sasso" and UmriWaKukuKwaSiku >= 43 and UmriWaKukuKwaSiku <= 49) or (AinaYaKuku == "Kuku aina ya Tanbro" and UmriWaKukuKwaSiku >= 43 and UmriWaKukuKwaSiku <= 49) or (AinaYaKuku == "Kuku aina ya Kenbro" and UmriWaKukuKwaSiku >= 43 and UmriWaKukuKwaSiku <= 49):
+            Remained_Days_Per_Period = 70 #28-7=21
+            remaining_days = Remained_Days_Per_Period - time_elapsed
+            print(f"remaining_days: {remaining_days}")
+
+            # Update day_is_reached to True if remaining_days is equal to 1
+            if remaining_days == 0 and not self.day_is_reached:
+                self.day_is_reached = True
+                self.save(update_fields=['day_is_reached'])
+
+
+            return remaining_days
+
+        #----------------KUKU WA WIKI 8------------------
+        if (AinaYaKuku == "Kuku aina ya Kroila" and UmriWaKukuKwaSiku >= 50 and UmriWaKukuKwaSiku <= 56) or (AinaYaKuku == "Kuku wa Mayai (Layers)" and UmriWaKukuKwaSiku >= 50 and UmriWaKukuKwaSiku <= 56) or (AinaYaKuku == "Kuku aina ya Sasso" and UmriWaKukuKwaSiku >= 50 and UmriWaKukuKwaSiku <= 56) or (AinaYaKuku == "Kuku aina ya Tanbro" and UmriWaKukuKwaSiku >= 50 and UmriWaKukuKwaSiku <= 56) or (AinaYaKuku == "Kuku aina ya Kenbro" and UmriWaKukuKwaSiku >= 50 and UmriWaKukuKwaSiku <= 56):
+            Remained_Days_Per_Period = 63 #28-7=21
+            remaining_days = Remained_Days_Per_Period - time_elapsed
+            print(f"remaining_days: {remaining_days}")
+
+            # Update day_is_reached to True if remaining_days is equal to 1
+            if remaining_days == 0 and not self.day_is_reached:
+                self.day_is_reached = True
+                self.save(update_fields=['day_is_reached'])
+
+
+            return remaining_days
+
+        #-------------------KUKU WA WIKI 9-------------------
+        if (AinaYaKuku == "Kuku aina ya Kroila" and UmriWaKukuKwaSiku >= 57 and UmriWaKukuKwaSiku <= 63) or (AinaYaKuku == "Kuku wa Mayai (Layers)" and UmriWaKukuKwaSiku >= 57 and UmriWaKukuKwaSiku <= 63) or (AinaYaKuku == "Kuku aina ya Sasso" and UmriWaKukuKwaSiku >= 57 and UmriWaKukuKwaSiku <= 63) or (AinaYaKuku == "Kuku aina ya Tanbro" and UmriWaKukuKwaSiku >= 57 and UmriWaKukuKwaSiku <= 63) or (AinaYaKuku == "Kuku aina ya Kenbro" and UmriWaKukuKwaSiku >= 57 and UmriWaKukuKwaSiku <= 63):
+            Remained_Days_Per_Period = 56 #28-7=21
+            remaining_days = Remained_Days_Per_Period - time_elapsed
+            print(f"remaining_days: {remaining_days}")
+
+            # Update day_is_reached to True if remaining_days is equal to 1
+            if remaining_days == 0 and not self.day_is_reached:
+                self.day_is_reached = True
+                self.save(update_fields=['day_is_reached'])
+
+
+            return remaining_days
+
+        #-------------------KUKU WA WIKI 10------
+        if (AinaYaKuku == "Kuku aina ya Kroila" and UmriWaKukuKwaSiku >= 64 and UmriWaKukuKwaSiku <= 70) or (AinaYaKuku == "Kuku wa Mayai (Layers)" and UmriWaKukuKwaSiku >= 64 and UmriWaKukuKwaSiku <= 70) or (AinaYaKuku == "Kuku aina ya Sasso" and UmriWaKukuKwaSiku >= 64 and UmriWaKukuKwaSiku <= 70) or (AinaYaKuku == "Kuku aina ya Tanbro" and UmriWaKukuKwaSiku >= 64 and UmriWaKukuKwaSiku <= 70) or (AinaYaKuku == "Kuku aina ya Kenbro" and UmriWaKukuKwaSiku >= 64 and UmriWaKukuKwaSiku <= 70):
+            Remained_Days_Per_Period = 49 #28-7=21
+            remaining_days = Remained_Days_Per_Period - time_elapsed
+            print(f"remaining_days: {remaining_days}")
+
+            # Update day_is_reached to True if remaining_days is equal to 1
+            if remaining_days == 0 and not self.day_is_reached:
+                self.day_is_reached = True
+                self.save(update_fields=['day_is_reached'])
+
+
+            return remaining_days
+
+
+        #-----------------KUKU WA WIKI 11-----------------
+        #-------------------KUKU WA WIKI 11------
+        if (AinaYaKuku == "Kuku aina ya Kroila" and UmriWaKukuKwaSiku >= 71 and UmriWaKukuKwaSiku <= 77) or (AinaYaKuku == "Kuku wa Mayai (Layers)" and UmriWaKukuKwaSiku >= 71 and UmriWaKukuKwaSiku <= 77) or (AinaYaKuku == "Kuku aina ya Sasso" and UmriWaKukuKwaSiku >= 71 and UmriWaKukuKwaSiku <= 77) or (AinaYaKuku == "Kuku aina ya Tanbro" and UmriWaKukuKwaSiku >= 71 and UmriWaKukuKwaSiku <= 77) or (AinaYaKuku == "Kuku aina ya Kenbro" and UmriWaKukuKwaSiku >= 71 and UmriWaKukuKwaSiku <= 77):
+            Remained_Days_Per_Period = 42 #28-7=21
+            remaining_days = Remained_Days_Per_Period - time_elapsed
+            print(f"remaining_days: {remaining_days}")
+
+            # Update day_is_reached to True if remaining_days is equal to 1
+            if remaining_days == 0 and not self.day_is_reached:
+                self.day_is_reached = True
+                self.save(update_fields=['day_is_reached'])
+
+
+            return remaining_days
+
+        #-----------------KUKU WA WIKI 12----------------
+        if (AinaYaKuku == "Kuku aina ya Kroila" and UmriWaKukuKwaSiku >= 78 and UmriWaKukuKwaSiku <= 84) or (AinaYaKuku == "Kuku wa Mayai (Layers)" and UmriWaKukuKwaSiku >= 78 and UmriWaKukuKwaSiku <= 84) or (AinaYaKuku == "Kuku aina ya Sasso" and UmriWaKukuKwaSiku >= 78 and UmriWaKukuKwaSiku <= 84) or (AinaYaKuku == "Kuku aina ya Tanbro" and UmriWaKukuKwaSiku >= 78 and UmriWaKukuKwaSiku <= 84) or (AinaYaKuku == "Kuku aina ya Kenbro" and UmriWaKukuKwaSiku >= 78 and UmriWaKukuKwaSiku <= 84):
+            Remained_Days_Per_Period = 35 #28-7=21
+            remaining_days = Remained_Days_Per_Period - time_elapsed
+            print(f"remaining_days: {remaining_days}")
+
+            # Update day_is_reached to True if remaining_days is equal to 1
+            if remaining_days == 0 and not self.day_is_reached:
+                self.day_is_reached = True
+                self.save(update_fields=['day_is_reached'])
+
+
+            return remaining_days
+
+
+        #----------------KUKU WA WIKI 13-----------
+        if (AinaYaKuku == "Kuku aina ya Kroila" and UmriWaKukuKwaSiku >= 85 and UmriWaKukuKwaSiku <= 91) or (AinaYaKuku == "Kuku wa Mayai (Layers)" and UmriWaKukuKwaSiku >= 85 and UmriWaKukuKwaSiku <= 91) or (AinaYaKuku == "Kuku aina ya Sasso" and UmriWaKukuKwaSiku >= 85 and UmriWaKukuKwaSiku <= 91) or (AinaYaKuku == "Kuku aina ya Tanbro" and UmriWaKukuKwaSiku >= 85 and UmriWaKukuKwaSiku <= 91) or (AinaYaKuku == "Kuku aina ya Kenbro" and UmriWaKukuKwaSiku >= 85 and UmriWaKukuKwaSiku <= 91):
+            Remained_Days_Per_Period = 28 #28-7=21
+            remaining_days = Remained_Days_Per_Period - time_elapsed
+            print(f"remaining_days: {remaining_days}")
+
+            # Update day_is_reached to True if remaining_days is equal to 1
+            if remaining_days == 0 and not self.day_is_reached:
+                self.day_is_reached = True
+                self.save(update_fields=['day_is_reached'])
+
+
+            return remaining_days
+
+
+        #-------------KUKU WA WIKI 14---------------
+        if (AinaYaKuku == "Kuku aina ya Kroila" and UmriWaKukuKwaSiku >= 92 and UmriWaKukuKwaSiku <= 98) or (AinaYaKuku == "Kuku wa Mayai (Layers)" and UmriWaKukuKwaSiku >= 92 and UmriWaKukuKwaSiku <= 98) or (AinaYaKuku == "Kuku aina ya Sasso" and UmriWaKukuKwaSiku >= 92 and UmriWaKukuKwaSiku <= 98) or (AinaYaKuku == "Kuku aina ya Tanbro" and UmriWaKukuKwaSiku >= 92 and UmriWaKukuKwaSiku <= 98) or (AinaYaKuku == "Kuku aina ya Kenbro" and UmriWaKukuKwaSiku >= 92 and UmriWaKukuKwaSiku <= 98):
+            Remained_Days_Per_Period = 21 #28-7=21
+            remaining_days = Remained_Days_Per_Period - time_elapsed
+            print(f"remaining_days: {remaining_days}")
+
+            # Update day_is_reached to True if remaining_days is equal to 1
+            if remaining_days == 0 and not self.day_is_reached:
+                self.day_is_reached = True
+                self.save(update_fields=['day_is_reached'])
+
+
+            return remaining_days
+
+        #--------------KUKU WA WIKI 15-----------
+        if (AinaYaKuku == "Kuku aina ya Kroila" and UmriWaKukuKwaSiku >= 99 and UmriWaKukuKwaSiku <= 105) or (AinaYaKuku == "Kuku wa Mayai (Layers)" and UmriWaKukuKwaSiku >= 99 and UmriWaKukuKwaSiku <= 105) or (AinaYaKuku == "Kuku aina ya Sasso" and UmriWaKukuKwaSiku >= 99 and UmriWaKukuKwaSiku <= 105) or (AinaYaKuku == "Kuku aina ya Tanbro" and UmriWaKukuKwaSiku >= 99 and UmriWaKukuKwaSiku <= 105) or (AinaYaKuku == "Kuku aina ya Kenbro" and UmriWaKukuKwaSiku >= 99 and UmriWaKukuKwaSiku <= 105):
+            Remained_Days_Per_Period = 14 #28-7=21
+            remaining_days = Remained_Days_Per_Period - time_elapsed
+            print(f"remaining_days: {remaining_days}")
+
+            # Update day_is_reached to True if remaining_days is equal to 1
+            if remaining_days == 0 and not self.day_is_reached:
+                self.day_is_reached = True
+                self.save(update_fields=['day_is_reached'])
+
+
+            return remaining_days
+
+
+        #---------------------KUKU WA WIKI 16--------------
+        if (AinaYaKuku == "Kuku aina ya Kroila" and UmriWaKukuKwaSiku >= 106 and UmriWaKukuKwaSiku <= 112) or (AinaYaKuku == "Kuku wa Mayai (Layers)" and UmriWaKukuKwaSiku >= 106 and UmriWaKukuKwaSiku <= 112) or (AinaYaKuku == "Kuku aina ya Sasso" and UmriWaKukuKwaSiku >= 106 and UmriWaKukuKwaSiku <= 112) or (AinaYaKuku == "Kuku aina ya Tanbro" and UmriWaKukuKwaSiku >= 106 and UmriWaKukuKwaSiku <= 112) or (AinaYaKuku == "Kuku aina ya Kenbro" and UmriWaKukuKwaSiku >= 106 and UmriWaKukuKwaSiku <= 112):
+            Remained_Days_Per_Period = 7 #28-7=21
+            remaining_days = Remained_Days_Per_Period - time_elapsed
+            print(f"remaining_days: {remaining_days}")
+
+            # Update day_is_reached to True if remaining_days is equal to 1
+            if remaining_days == 0 and not self.day_is_reached:
+                self.day_is_reached = True
+                self.save(update_fields=['day_is_reached'])
+
+
+            return remaining_days
+
+
+        #-------------KUKU WA WIKI 17------------
+        if (AinaYaKuku == "Kuku aina ya Kroila" and UmriWaKukuKwaSiku >= 113 and UmriWaKukuKwaSiku <= 119) or (AinaYaKuku == "Kuku wa Mayai (Layers)" and UmriWaKukuKwaSiku >= 113 and UmriWaKukuKwaSiku <= 119) or (AinaYaKuku == "Kuku aina ya Sasso" and UmriWaKukuKwaSiku >= 113 and UmriWaKukuKwaSiku <= 119) or (AinaYaKuku == "Kuku aina ya Tanbro" and UmriWaKukuKwaSiku >= 113 and UmriWaKukuKwaSiku <= 119) or (AinaYaKuku == "Kuku aina ya Kenbro" and UmriWaKukuKwaSiku >= 113 and UmriWaKukuKwaSiku <= 119):
+            Remained_Days_Per_Period = 1 #28-7=21
+            remaining_days = Remained_Days_Per_Period - time_elapsed
+            print(f"remaining_days: {remaining_days}")
+
+            # Update day_is_reached to True if remaining_days is equal to 1
+            if remaining_days == 0 and not self.day_is_reached:
+                self.day_is_reached = True
+                self.save(update_fields=['day_is_reached'])
+
+
+            return remaining_days
+
+
+        #--------------KUKU WA WIKI 18---------------
+        # if (AinaYaKuku == "Kuku aina ya Kroila" and UmriWaKukuKwaSiku >= 120 and UmriWaKukuKwaSiku <= 126) or (AinaYaKuku == "Kuku wa Mayai (Layers)" and UmriWaKukuKwaSiku >= 120 and UmriWaKukuKwaSiku <= 126) or (AinaYaKuku == "Kuku aina ya Sasso" and UmriWaKukuKwaSiku >= 120 and UmriWaKukuKwaSiku <= 126) or (AinaYaKuku == "Kuku aina ya Tanbro" and UmriWaKukuKwaSiku >= 120 and UmriWaKukuKwaSiku <= 126) or (AinaYaKuku == "Kuku aina ya Kenbro" and UmriWaKukuKwaSiku >= 120 and UmriWaKukuKwaSiku <= 126):
+        #     Remained_Days_Per_Period = 42 #28-7=21
+        #     remaining_days = Remained_Days_Per_Period - time_elapsed
+        #     print(f"remaining_days: {remaining_days}")
+
+        #     # Update day_is_reached to True if remaining_days is equal to 1
+        #     if remaining_days == 0 and not self.day_is_reached:
+        #         self.day_is_reached = True
+        #         self.save(update_fields=['day_is_reached'])
+
+
+        #     return remaining_days
+
+
+
+
+
+        #---------------------MWISHO WA KUKU HUYO AISHIA WIKI YA 17 (YANI CHAKULA CHA GROWER)
+
+
+
+
+
+
+
+
+
+
+        #------------------MWANZO WA KUKU MWINGINE-----------------(BROILA)
+
+
+        #--------------------KUKU WA WIKI 1---------------
+        if (AinaYaKuku == "Kuku aina ya Broila (kuku wa nyama)" and UmriWaKukuKwaSiku >= 0 and UmriWaKukuKwaSiku <= 7):
+            Remained_Days_Per_Period = 7 #28-7=21
+            remaining_days = Remained_Days_Per_Period - time_elapsed
+            print(f"remaining_days: {remaining_days}")
+
+            # Update day_is_reached to True if remaining_days is equal to 1
+            if remaining_days == 0 and not self.day_is_reached:
+                self.day_is_reached = True
+                self.save(update_fields=['day_is_reached'])
+
+
+            return remaining_days
+
+        #----------------KUKU WA WIKI 2-----------------
+        if (AinaYaKuku == "Kuku aina ya Broila (kuku wa nyama)" and UmriWaKukuKwaSiku >= 8 and UmriWaKukuKwaSiku <= 14):
+            Remained_Days_Per_Period = 1 #28-7=21
+            remaining_days = Remained_Days_Per_Period - time_elapsed
+            print(f"remaining_days: {remaining_days}")
+
+            # Update day_is_reached to True if remaining_days is equal to 1
+            if remaining_days == 0 and not self.day_is_reached:
+                self.day_is_reached = True
+                self.save(update_fields=['day_is_reached'])
+
+
+            return remaining_days
+
+        #------------------KUKU WA WIKI 3------------------
+        if (AinaYaKuku == "Kuku aina ya Broila (kuku wa nyama)" and UmriWaKukuKwaSiku >= 15 and UmriWaKukuKwaSiku <= 21):
+            Remained_Days_Per_Period = 7 #28-7=21
+            remaining_days = Remained_Days_Per_Period - time_elapsed
+            print(f"remaining_days: {remaining_days}")
+
+            # Update day_is_reached to True if remaining_days is equal to 1
+            if remaining_days == 0 and not self.day_is_reached:
+                self.day_is_reached = True
+                self.save(update_fields=['day_is_reached'])
+
+
+            return remaining_days
+
+        #--------------------KUKU WA WIKI 4-------------------
+        if (AinaYaKuku == "Kuku aina ya Broila (kuku wa nyama)" and UmriWaKukuKwaSiku >= 22 and UmriWaKukuKwaSiku <= 28):
+            Remained_Days_Per_Period = 1 #28-7=21
+            remaining_days = Remained_Days_Per_Period - time_elapsed
+            print(f"remaining_days: {remaining_days}")
+
+            # Update day_is_reached to True if remaining_days is equal to 1
+            if remaining_days == 0 and not self.day_is_reached:
+                self.day_is_reached = True
+                self.save(update_fields=['day_is_reached'])
+
+
+            return remaining_days
+
+
+
+
+
+
+        #------------------------MWISHO WA KUKU (BROILA) TUNAENDA KWA WIKI 4------
+
+
+
+
+        #---------------------MWANZO WA KUKU MWINGINE--------------------
+
+        #--------------KUKU WA WIKI 1-----------
+        if ((AinaYaKuku == "Kuku wa Malawi") and (UmriWaKukuKwaSiku >= 0 and UmriWaKukuKwaSiku <= 7)) or ((AinaYaKuku == "Kuku wa Kienyeji") and (UmriWaKukuKwaSiku >= 0 and UmriWaKukuKwaSiku <= 7)):
+            Remained_Days_Per_Period = 35 #28-7=21
+            remaining_days = Remained_Days_Per_Period - time_elapsed
+            print(f"remaining_days: {remaining_days}")
+
+            # Update day_is_reached to True if remaining_days is equal to 1
+            if remaining_days == 0 and not self.day_is_reached:
+                self.day_is_reached = True
+                self.save(update_fields=['day_is_reached'])
+
+
+            return remaining_days
+
+        #---------------KUKU WA WIKI 2-------------
+        if ((AinaYaKuku == "Kuku wa Malawi") and (UmriWaKukuKwaSiku >= 8 and UmriWaKukuKwaSiku <= 14)) or ((AinaYaKuku == "Kuku wa Kienyeji") and (UmriWaKukuKwaSiku >= 8 and UmriWaKukuKwaSiku <= 14)):
+            Remained_Days_Per_Period = 28 #28-7=21
+            remaining_days = Remained_Days_Per_Period - time_elapsed
+            print(f"remaining_days: {remaining_days}")
+
+            # Update day_is_reached to True if remaining_days is equal to 1
+            if remaining_days == 0 and not self.day_is_reached:
+                self.day_is_reached = True
+                self.save(update_fields=['day_is_reached'])
+
+
+            return remaining_days
+
+        #---------------KUKU WA WIKI 3------------
+        if ((AinaYaKuku == "Kuku wa Malawi") and (UmriWaKukuKwaSiku >= 15 and UmriWaKukuKwaSiku <= 21)) or ((AinaYaKuku == "Kuku wa Kienyeji") and (UmriWaKukuKwaSiku >= 15 and UmriWaKukuKwaSiku <= 21)):
+            Remained_Days_Per_Period = 21 #28-7=21
+            remaining_days = Remained_Days_Per_Period - time_elapsed
+            print(f"remaining_days: {remaining_days}")
+
+            # Update day_is_reached to True if remaining_days is equal to 1
+            if remaining_days == 0 and not self.day_is_reached:
+                self.day_is_reached = True
+                self.save(update_fields=['day_is_reached'])
+
+
+            return remaining_days
+
+        #-----------------KUKU WA WIKI 4-------------
+        if ((AinaYaKuku == "Kuku wa Malawi") and (UmriWaKukuKwaSiku >= 22 and UmriWaKukuKwaSiku <= 28)) or ((AinaYaKuku == "Kuku wa Kienyeji") and (UmriWaKukuKwaSiku >= 22 and UmriWaKukuKwaSiku <= 28)):
+            Remained_Days_Per_Period = 14 #28-7=21
+            remaining_days = Remained_Days_Per_Period - time_elapsed
+            print(f"remaining_days: {remaining_days}")
+
+            # Update day_is_reached to True if remaining_days is equal to 1
+            if remaining_days == 0 and not self.day_is_reached:
+                self.day_is_reached = True
+                self.save(update_fields=['day_is_reached'])
+
+
+            return remaining_days
+
+        #----------------KUKU WA WIKI 5------------
+        if ((AinaYaKuku == "Kuku wa Malawi") and (UmriWaKukuKwaSiku >= 29 and UmriWaKukuKwaSiku <= 35)) or ((AinaYaKuku == "Kuku wa Kienyeji") and (UmriWaKukuKwaSiku >= 29 and UmriWaKukuKwaSiku <= 35)):
+            Remained_Days_Per_Period = 7 #28-7=21
+            remaining_days = Remained_Days_Per_Period - time_elapsed
+            print(f"remaining_days: {remaining_days}")
+
+            # Update day_is_reached to True if remaining_days is equal to 1
+            if remaining_days == 0 and not self.day_is_reached:
+                self.day_is_reached = True
+                self.save(update_fields=['day_is_reached'])
+
+
+            return remaining_days
+
+
+        #-------------------KUKU WA WIKI 6------------
+        if ((AinaYaKuku == "Kuku wa Malawi") and (UmriWaKukuKwaSiku >= 36 and UmriWaKukuKwaSiku <= 42)) or ((AinaYaKuku == "Kuku wa Kienyeji") and (UmriWaKukuKwaSiku >= 36 and UmriWaKukuKwaSiku <= 42)):
+            Remained_Days_Per_Period = 1 #28-7=21
+            remaining_days = Remained_Days_Per_Period - time_elapsed
+            print(f"remaining_days: {remaining_days}")
+
+            # Update day_is_reached to True if remaining_days is equal to 1
+            if remaining_days == 0 and not self.day_is_reached:
+                self.day_is_reached = True
+                self.save(update_fields=['day_is_reached'])
+
+
+            return remaining_days
+
+
+        #-----------------KUKU WA WIKI 7--------------
+        if ((AinaYaKuku == "Kuku wa Malawi") and (UmriWaKukuKwaSiku >= 43 and UmriWaKukuKwaSiku <= 49)) or ((AinaYaKuku == "Kuku wa Kienyeji") and (UmriWaKukuKwaSiku >= 43 and UmriWaKukuKwaSiku <= 49)):
+            Remained_Days_Per_Period = 98 #28-7=21
+            remaining_days = Remained_Days_Per_Period - time_elapsed
+            print(f"remaining_days: {remaining_days}")
+
+            # Update day_is_reached to True if remaining_days is equal to 1
+            if remaining_days == 0 and not self.day_is_reached:
+                self.day_is_reached = True
+                self.save(update_fields=['day_is_reached'])
+
+
+            return remaining_days
+
+        #-------------------KUKU WA WIKI 8-------------
+        if ((AinaYaKuku == "Kuku wa Malawi") and (UmriWaKukuKwaSiku >= 50 and UmriWaKukuKwaSiku <= 56)) or ((AinaYaKuku == "Kuku wa Kienyeji") and (UmriWaKukuKwaSiku >= 50 and UmriWaKukuKwaSiku <= 56)):
+            Remained_Days_Per_Period = 91 #28-7=21
+            remaining_days = Remained_Days_Per_Period - time_elapsed
+            print(f"remaining_days: {remaining_days}")
+
+            # Update day_is_reached to True if remaining_days is equal to 1
+            if remaining_days == 0 and not self.day_is_reached:
+                self.day_is_reached = True
+                self.save(update_fields=['day_is_reached'])
+
+
+            return remaining_days
+
+        #------------------KUKU WA Wiki 9------------
+        if ((AinaYaKuku == "Kuku wa Malawi") and (UmriWaKukuKwaSiku >= 57 and UmriWaKukuKwaSiku <= 63)) or ((AinaYaKuku == "Kuku wa Kienyeji") and (UmriWaKukuKwaSiku >= 57 and UmriWaKukuKwaSiku <= 63)):
+            Remained_Days_Per_Period = 84 #28-7=21
+            remaining_days = Remained_Days_Per_Period - time_elapsed
+            print(f"remaining_days: {remaining_days}")
+
+            # Update day_is_reached to True if remaining_days is equal to 1
+            if remaining_days == 0 and not self.day_is_reached:
+                self.day_is_reached = True
+                self.save(update_fields=['day_is_reached'])
+
+
+            return remaining_days
+
+
+        #------------------KUKU WA WIKI 10---------------
+        if ((AinaYaKuku == "Kuku wa Malawi") and (UmriWaKukuKwaSiku >= 64 and UmriWaKukuKwaSiku <= 70)) or ((AinaYaKuku == "Kuku wa Kienyeji") and (UmriWaKukuKwaSiku >= 64 and UmriWaKukuKwaSiku <= 70)):
+            Remained_Days_Per_Period = 77 #28-7=21
+            remaining_days = Remained_Days_Per_Period - time_elapsed
+            print(f"remaining_days: {remaining_days}")
+
+            # Update day_is_reached to True if remaining_days is equal to 1
+            if remaining_days == 0 and not self.day_is_reached:
+                self.day_is_reached = True
+                self.save(update_fields=['day_is_reached'])
+
+
+            return remaining_days
+
+        #-------------------KUKU WA WIKI 11--------------
+        if ((AinaYaKuku == "Kuku wa Malawi") and (UmriWaKukuKwaSiku >= 71 and UmriWaKukuKwaSiku <= 77)) or ((AinaYaKuku == "Kuku wa Kienyeji") and (UmriWaKukuKwaSiku >= 71 and UmriWaKukuKwaSiku <= 77)):
+            Remained_Days_Per_Period = 70 #28-7=21
+            remaining_days = Remained_Days_Per_Period - time_elapsed
+            print(f"remaining_days: {remaining_days}")
+
+            # Update day_is_reached to True if remaining_days is equal to 1
+            if remaining_days == 0 and not self.day_is_reached:
+                self.day_is_reached = True
+                self.save(update_fields=['day_is_reached'])
+
+
+            return remaining_days
+
+        #----------------KUKU WA WIKI 12-------------
+        if ((AinaYaKuku == "Kuku wa Malawi") and (UmriWaKukuKwaSiku >= 78 and UmriWaKukuKwaSiku <= 84)) or ((AinaYaKuku == "Kuku wa Kienyeji") and (UmriWaKukuKwaSiku >= 78 and UmriWaKukuKwaSiku <= 84)):
+            Remained_Days_Per_Period = 63 #28-7=21
+            remaining_days = Remained_Days_Per_Period - time_elapsed
+            print(f"remaining_days: {remaining_days}")
+
+            # Update day_is_reached to True if remaining_days is equal to 1
+            if remaining_days == 0 and not self.day_is_reached:
+                self.day_is_reached = True
+                self.save(update_fields=['day_is_reached'])
+
+
+            return remaining_days
+
+        #-----------------KUKU WA WIKI 13--------------
+        if ((AinaYaKuku == "Kuku wa Malawi") and (UmriWaKukuKwaSiku >= 85 and UmriWaKukuKwaSiku <= 91)) or ((AinaYaKuku == "Kuku wa Kienyeji") and (UmriWaKukuKwaSiku >= 85 and UmriWaKukuKwaSiku <= 91)):
+            Remained_Days_Per_Period = 56 #28-7=21
+            remaining_days = Remained_Days_Per_Period - time_elapsed
+            print(f"remaining_days: {remaining_days}")
+
+            # Update day_is_reached to True if remaining_days is equal to 1
+            if remaining_days == 0 and not self.day_is_reached:
+                self.day_is_reached = True
+                self.save(update_fields=['day_is_reached'])
+
+
+            return remaining_days
+
+        #---------------KUKU WA WIKI 14-------------
+        if ((AinaYaKuku == "Kuku wa Malawi") and (UmriWaKukuKwaSiku >= 92 and UmriWaKukuKwaSiku <= 98)) or ((AinaYaKuku == "Kuku wa Kienyeji") and (UmriWaKukuKwaSiku >= 92 and UmriWaKukuKwaSiku <= 98)):
+            Remained_Days_Per_Period = 49 #28-7=21
+            remaining_days = Remained_Days_Per_Period - time_elapsed
+            print(f"remaining_days: {remaining_days}")
+
+            # Update day_is_reached to True if remaining_days is equal to 1
+            if remaining_days == 0 and not self.day_is_reached:
+                self.day_is_reached = True
+                self.save(update_fields=['day_is_reached'])
+
+
+            return remaining_days
+
+        #--------------------KUKU WA WIKI 15--------------
+        if ((AinaYaKuku == "Kuku wa Malawi") and (UmriWaKukuKwaSiku >= 99 and UmriWaKukuKwaSiku <= 105)) or ((AinaYaKuku == "Kuku wa Kienyeji") and (UmriWaKukuKwaSiku >= 99 and UmriWaKukuKwaSiku <= 105)):
+            Remained_Days_Per_Period = 42 #28-7=21
+            remaining_days = Remained_Days_Per_Period - time_elapsed
+            print(f"remaining_days: {remaining_days}")
+
+            # Update day_is_reached to True if remaining_days is equal to 1
+            if remaining_days == 0 and not self.day_is_reached:
+                self.day_is_reached = True
+                self.save(update_fields=['day_is_reached'])
+
+
+            return remaining_days
+
+        #-------------------KUKU WA WIKI 16----------------
+        if ((AinaYaKuku == "Kuku wa Malawi") and (UmriWaKukuKwaSiku >= 106 and UmriWaKukuKwaSiku <= 112)) or ((AinaYaKuku == "Kuku wa Kienyeji") and (UmriWaKukuKwaSiku >= 106 and UmriWaKukuKwaSiku <= 112)):
+            Remained_Days_Per_Period = 35 #28-7=21
+            remaining_days = Remained_Days_Per_Period - time_elapsed
+            print(f"remaining_days: {remaining_days}")
+
+            # Update day_is_reached to True if remaining_days is equal to 1
+            if remaining_days == 0 and not self.day_is_reached:
+                self.day_is_reached = True
+                self.save(update_fields=['day_is_reached'])
+
+
+            return remaining_days
+
+
+        #-----------------KUKU WA WIKI 17-------------
+        if ((AinaYaKuku == "Kuku wa Malawi") and (UmriWaKukuKwaSiku >= 113 and UmriWaKukuKwaSiku <= 119)) or ((AinaYaKuku == "Kuku wa Kienyeji") and (UmriWaKukuKwaSiku >= 113 and UmriWaKukuKwaSiku <= 119)):
+            Remained_Days_Per_Period = 28 #28-7=21
+            remaining_days = Remained_Days_Per_Period - time_elapsed
+            print(f"remaining_days: {remaining_days}")
+
+            # Update day_is_reached to True if remaining_days is equal to 1
+            if remaining_days == 0 and not self.day_is_reached:
+                self.day_is_reached = True
+                self.save(update_fields=['day_is_reached'])
+
+
+            return remaining_days
+
+        #-----------------WIKI YA 18-----------
+        if ((AinaYaKuku == "Kuku wa Malawi") and (UmriWaKukuKwaSiku >= 120 and UmriWaKukuKwaSiku <= 126)) or ((AinaYaKuku == "Kuku wa Kienyeji") and (UmriWaKukuKwaSiku >= 120 and UmriWaKukuKwaSiku <= 126)):
+            Remained_Days_Per_Period = 21 #28-7=21
+            remaining_days = Remained_Days_Per_Period - time_elapsed
+            print(f"remaining_days: {remaining_days}")
+
+            # Update day_is_reached to True if remaining_days is equal to 1
+            if remaining_days == 0 and not self.day_is_reached:
+                self.day_is_reached = True
+                self.save(update_fields=['day_is_reached'])
+
+
+            return remaining_days
+
+        #---------------KUKU WA WIKI 19------------
+        if ((AinaYaKuku == "Kuku wa Malawi") and (UmriWaKukuKwaSiku >= 127 and UmriWaKukuKwaSiku <= 133)) or ((AinaYaKuku == "Kuku wa Kienyeji") and (UmriWaKukuKwaSiku >= 127 and UmriWaKukuKwaSiku <= 133)):
+            Remained_Days_Per_Period = 14 #28-7=21
+            remaining_days = Remained_Days_Per_Period - time_elapsed
+            print(f"remaining_days: {remaining_days}")
+
+            # Update day_is_reached to True if remaining_days is equal to 1
+            if remaining_days == 0 and not self.day_is_reached:
+                self.day_is_reached = True
+                self.save(update_fields=['day_is_reached'])
+
+
+            return remaining_days
+
+        #-----------------KUKU WA WIKI 20---------
+        if ((AinaYaKuku == "Kuku wa Malawi") and (UmriWaKukuKwaSiku >= 134 and UmriWaKukuKwaSiku <= 140)) or ((AinaYaKuku == "Kuku wa Kienyeji") and (UmriWaKukuKwaSiku >= 134 and UmriWaKukuKwaSiku <= 140)):
+            Remained_Days_Per_Period = 7 #28-7=21
+            remaining_days = Remained_Days_Per_Period - time_elapsed
+            print(f"remaining_days: {remaining_days}")
+
+            # Update day_is_reached to True if remaining_days is equal to 1
+            if remaining_days == 0 and not self.day_is_reached:
+                self.day_is_reached = True
+                self.save(update_fields=['day_is_reached'])
+
+
+            return remaining_days
+
+        #-------------KUKU WA WIKI 21--------------
+        if ((AinaYaKuku == "Kuku wa Malawi") and (UmriWaKukuKwaSiku >= 141 and UmriWaKukuKwaSiku <= 147)) or ((AinaYaKuku == "Kuku wa Kienyeji") and (UmriWaKukuKwaSiku >= 141 and UmriWaKukuKwaSiku <= 147)):
+            Remained_Days_Per_Period = 1 #28-7=21
+            remaining_days = Remained_Days_Per_Period - time_elapsed
+            print(f"remaining_days: {remaining_days}")
+
+            # Update day_is_reached to True if remaining_days is equal to 1
+            if remaining_days == 0 and not self.day_is_reached:
+                self.day_is_reached = True
+                self.save(update_fields=['day_is_reached'])
+
+
+            return remaining_days
+
+
+        
+
+        
+
+    @property
+    def is_red(self):
+        # Will return True if any of the selected chanjo's remaining days is 1
+        return self.time_left == 0
 
 
 
@@ -1105,30 +1812,36 @@ class KumbushoLaChanjo(models.Model):
         # Example calculation for time left
         time_elapsed = (timezone.now() - self.Created).days
 
-        selected_chanjo = self.AinaYaChanjo.all()
+        username = self.username
+
+        selected_chanjo = self.AinaYaChanjo.filter(
+            Kutolewa__gt=time_elapsed  # Use double underscores for field lookups
+        ).first()
+
 
         if selected_chanjo:
-            for item in selected_chanjo:
-                chanjo_name = item.JinaLaChanjo
-                Hutolewa_Siku = item.Kutolewa
-                remaining_days = Hutolewa_Siku - time_elapsed
-                print(f"{self.username}, chanjo_name: {chanjo_name}, Hutolewa_Siku: {Hutolewa_Siku}, remaining_days: {remaining_days}")
+            print(f"selected Chanjos: {selected_chanjo}, username: {username}")
+            
+            chanjo_name = selected_chanjo.JinaLaChanjo
+            Hutolewa_Siku = selected_chanjo.Kutolewa
+            remaining_days = Hutolewa_Siku - time_elapsed
+            print(f"{self.username}, chanjo_name: {chanjo_name}, time_elapsed:{time_elapsed}, Hutolewa_Siku: {Hutolewa_Siku}, remaining_days: {remaining_days}")
 
-                # Check if remaining days is 1 and set day_is_reached if not already set
-                if remaining_days == 1 and not self.day_is_reached:
-                    self.day_is_reached = True
-                    self.save(update_fields=['day_is_reached'])
+            # Check if remaining days is 1 and set day_is_reached if not already set
+            if remaining_days == 3 and not self.day_is_reached:
+                self.day_is_reached = True
+                self.save(update_fields=['day_is_reached'])
 
-                # Return the remaining days for the first match (for display)
-                return remaining_days
+            # Return the remaining days for the first match (for display)
+            return remaining_days
 
         # If no matching chanjo
-        return None
+        return 0
 
     @property
     def is_red(self):
         # Will return True if any of the selected chanjo's remaining days is 1
-        return self.time_left == 1
+        return self.time_left == 3
 
 
 
@@ -1218,7 +1931,48 @@ class KumbushoLaUatamiajiWaMayai(models.Model):
 
 
 
+class EmailSendCount_Wanunuzi(models.Model):
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    
+    count = models.IntegerField(default=0)
+    
 
+    phone = models.CharField(verbose_name="Namba Yako ya Simu",max_length=13, blank=True,null=True)
+    username = models.CharField(verbose_name="Jina Lako Kamili",max_length=500, blank=True,null=True)
+    email = models.EmailField(verbose_name="Email Yako",max_length=200, blank=True,null=True)
+    Location = models.CharField(verbose_name="Mahali",max_length=200, blank=True,null=True)
+    #company_name = models.CharField(verbose_name="Kampuni/Jina La Biashara Yako",max_length=500, blank=True,null=True)
+    JinaLaMnunuzi = models.CharField(verbose_name="Jina La Mnunuzi",max_length=500, blank=True,null=True)
+    NambaYaSimuYaMnunuzi = models.CharField(verbose_name="Namba Ya Simu Ya Mnunuzi",max_length=13, blank=True,null=True)
+    Mkoa = models.CharField(verbose_name="Mkoa",max_length=500, blank=True,null=True)
+    Wilaya = models.CharField(verbose_name="Wilaya",max_length=500, blank=True,null=True)
+
+
+    last_sent = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f"{self.user.username} - {self.count} times"
+
+    class Meta:
+        verbose_name_plural = "Email Count Kumbusho Wanunuzi"
+
+
+
+class HistoriaZaJumbeZaWanunuzi(models.Model):
+    #company_name = models.CharField(verbose_name="Kampuni/Jina La Biashara Yako",max_length=500, blank=True,null=True)
+    JinaLaMnunuzi = models.CharField(verbose_name="Jina La Mnunuzi",max_length=500, blank=True,null=True)
+    NambaYaSimuYaMnunuzi = models.CharField(verbose_name="Namba Ya Simu Ya Mnunuzi",max_length=13, blank=True,null=True)
+    Mkoa = models.CharField(verbose_name="Mkoa",max_length=500, blank=True,null=True)
+    Wilaya = models.CharField(verbose_name="Wilaya",max_length=500, blank=True,null=True)
+
+
+    last_sent = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f"{self.JinaLaMnunuzi} - {self.NambaYaSimuYaMnunuzi}"
+
+    class Meta:
+        verbose_name_plural = "Historia Za Jumbe Za Wanunuzi"
 
 
 
@@ -1245,8 +1999,80 @@ class EmailSendCount_KumbushoLaUatamiajiWaMayai(models.Model):
     class Meta:
         verbose_name_plural = "Email Count Kumbusho La Uatamiaji Wa Mayai"
 
+class EmailSendCount_Maoni(models.Model):
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    
+    count = models.IntegerField(default=0)
+    
+
+    phone = models.CharField(verbose_name="Namba Yako ya Simu",max_length=13, blank=True,null=True)
+    username = models.CharField(verbose_name="Jina Lako Kamili",max_length=500, blank=True,null=True)
+    email = models.EmailField(verbose_name="Email Yako",max_length=200, blank=True,null=True)
+    Location = models.CharField(verbose_name="Mahali",max_length=200, blank=True,null=True)
+    #company_name = models.CharField(verbose_name="Kampuni/Jina La Biashara Yako",max_length=500, blank=True,null=True)
+    ApprovedUser = models.CharField(verbose_name="Mtu Aliyetoa Maoni",max_length=500, blank=True,null=True)
+    ApprovedMaelezoUser = models.CharField(verbose_name="Maoni Aliyohakiki",max_length=1000, blank=True,null=True)
 
 
+    last_sent = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f"{self.user.username} - {self.count} times"
+
+    class Meta:
+        verbose_name_plural = "Email Count Maoni"
+
+class EmailSendCount_MyUser(models.Model):
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    
+    count = models.IntegerField(default=0)
+    
+
+    phone = models.CharField(verbose_name="Namba Yako ya Simu",max_length=13, blank=True,null=True)
+    username = models.CharField(verbose_name="Jina Lako Kamili",max_length=500, blank=True,null=True)
+    email = models.EmailField(verbose_name="Email Yako",max_length=200, blank=True,null=True)
+    Location = models.CharField(verbose_name="Mahali",max_length=200, blank=True,null=True)
+    #company_name = models.CharField(verbose_name="Kampuni/Jina La Biashara Yako",max_length=500, blank=True,null=True)
+    ApprovedUser = models.CharField(verbose_name="Mtumiaji  Aliyeomba Kuidinishwa",max_length=500, blank=True,null=True)
+    ApprovedMaelezoUser = models.CharField(verbose_name="Maelezo Ya Mtumiaji  Aliyeomba Kuidinishwa",max_length=1000, blank=True,null=True)
+
+
+    last_sent = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f"{self.user.username} - {self.count} times"
+
+    class Meta:
+        verbose_name_plural = "Email Count Users"
+
+
+
+
+
+
+
+class EmailSendCount_DukaLako(models.Model):
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    
+    count = models.IntegerField(default=0)
+    
+
+    phone = models.CharField(verbose_name="Namba Yako ya Simu",max_length=13, blank=True,null=True)
+    username = models.CharField(verbose_name="Jina Lako Kamili",max_length=500, blank=True,null=True)
+    email = models.EmailField(verbose_name="Email Yako",max_length=200, blank=True,null=True)
+    Location = models.CharField(verbose_name="Mahali",max_length=200, blank=True,null=True)
+    #company_name = models.CharField(verbose_name="Kampuni/Jina La Biashara Yako",max_length=500, blank=True,null=True)
+    ApprovedPost = models.CharField(verbose_name="Posti Aliyohakiki",max_length=500, blank=True,null=True)
+    ApprovedMaelezoPost = models.CharField(verbose_name="Maelezo Ya Posti Aliyohakiki",max_length=1000, blank=True,null=True)
+
+
+    last_sent = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f"{self.user.username} - {self.count} times"
+
+    class Meta:
+        verbose_name_plural = "Email Count Duka Lako"
 
 
 class EmailSendCount_KumbushoUsafishajiBanda(models.Model):
@@ -1269,6 +2095,62 @@ class EmailSendCount_KumbushoUsafishajiBanda(models.Model):
 
     class Meta:
         verbose_name_plural = "Email Count Kumbusho La Usafishaji Banda"
+
+
+
+class EmailSendCount_KumbushoLaMabadilikoYaLishe(models.Model):
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    
+    count = models.IntegerField(default=0)
+    
+
+    phone = models.CharField(verbose_name="Namba Yako ya Simu",max_length=13, blank=True,null=True)
+    username = models.CharField(verbose_name="Jina Lako Kamili",max_length=500, blank=True,null=True)
+    email = models.EmailField(verbose_name="Email Yako",max_length=200, blank=True,null=True)
+    Location = models.CharField(verbose_name="Mahali",max_length=200, blank=True,null=True)
+    #company_name = models.CharField(verbose_name="Kampuni/Jina La Biashara Yako",max_length=500, blank=True,null=True)
+
+
+    last_sent = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f"{self.user.username} - {self.count} times"
+
+    class Meta:
+        verbose_name_plural = "Email Count Kumbusho La Mabadiliko Ya Lishe"
+
+
+
+
+
+
+class EmailSendCount_KumbushoLaChanjo(models.Model):
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    
+    count = models.IntegerField(default=0)
+    
+
+    phone = models.CharField(verbose_name="Namba Yako ya Simu",max_length=13, blank=True,null=True)
+    username = models.CharField(verbose_name="Jina Lako Kamili",max_length=500, blank=True,null=True)
+    email = models.EmailField(verbose_name="Email Yako",max_length=200, blank=True,null=True)
+    Location = models.CharField(verbose_name="Mahali",max_length=200, blank=True,null=True)
+    #company_name = models.CharField(verbose_name="Kampuni/Jina La Biashara Yako",max_length=500, blank=True,null=True)
+
+
+    last_sent = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f"{self.user.username} - {self.count} times"
+
+    class Meta:
+        verbose_name_plural = "Email Count Kumbusho La Chanjo"
+
+
+
+
+
+
+
 
 
 

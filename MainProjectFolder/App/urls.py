@@ -48,26 +48,26 @@ urlpatterns = [
     #---------------KUMBUSHO LA KUSAFISHA BANDA-------------
     path('AddKumbushoUsafishajiBandaView/', views.AddKumbushoUsafishajiBandaView.as_view(), name='AddKumbushoUsafishajiBandaView'),
     path('GetAllKumbushoUsafishajiBandaView/', views.GetAllKumbushoUsafishajiBandaView.as_view(), name='GetAllKumbushoUsafishajiBandaView'),
-    path('DeleteKumbushoUsafishajiBandaByUserItsSelfView/', views.DeleteKumbushoUsafishajiBandaByUserItsSelfView.as_view(), name='DeleteKumbushoUsafishajiBandaByUserItsSelfView'),
-
+    #path('DeleteKumbushoUsafishajiBandaByUserItsSelfView/', views.DeleteKumbushoUsafishajiBandaByUserItsSelfView.as_view(), name='DeleteKumbushoUsafishajiBandaByUserItsSelfView'),
+    path('DeleteKumbushoUsafishajiBandaByUserItsSelfView/<int:pk>/delete/', views.DeleteKumbushoUsafishajiBandaByUserItsSelfView.as_view(), name='DeleteKumbushoUsafishajiBandaByUserItsSelfView'),
 
     #----------------KUMBUSHO LA CHANJO------------------
     path('AddKumbushoLaChanjoView/', views.AddKumbushoLaChanjoView.as_view(), name='AddKumbushoLaChanjoView'),
     path('GetAllKumbushoLaChanjoView/', views.GetAllKumbushoLaChanjoView.as_view(), name='GetAllKumbushoLaChanjoView'),
-    path('DeleteKumbushoLaChanjoByUserItsSelfView/', views.DeleteKumbushoLaChanjoByUserItsSelfView.as_view(), name='DeleteKumbushoLaChanjoByUserItsSelfView'),
-
+    #path('DeleteKumbushoLaChanjoByUserItsSelfView/', views.DeleteKumbushoLaChanjoByUserItsSelfView.as_view(), name='DeleteKumbushoLaChanjoByUserItsSelfView'),
+    path('DeleteKumbushoLaChanjoByUserItsSelfView/<int:pk>/delete/', views.DeleteKumbushoLaChanjoByUserItsSelfView.as_view(), name='DeleteKumbushoLaChanjoByUserItsSelfView'),
    
     #----------------KUMBUSHO LA UATAMIAJI WA MAYAI------------------
     path('AddKumbushoLaUatamiajiWaMayaiView/', views.AddKumbushoLaUatamiajiWaMayaiView.as_view(), name='AddKumbushoLaUatamiajiWaMayaiView'),
     path('GetAllKumbushoLaUatamiajiWaMayaiView/', views.GetAllKumbushoLaUatamiajiWaMayaiView.as_view(), name='GetAllKumbushoLaUatamiajiWaMayaiView'),
-    path('DeleteKumbushoLaUatamiajiWaMayaiByUserItsSelfView/', views.DeleteKumbushoLaUatamiajiWaMayaiByUserItsSelfView.as_view(), name='DeleteKumbushoLaUatamiajiWaMayaiByUserItsSelfView'),
-
+    #path('DeleteKumbushoLaUatamiajiWaMayaiByUserItsSelfView/', views.DeleteKumbushoLaUatamiajiWaMayaiByUserItsSelfView.as_view(), name='DeleteKumbushoLaUatamiajiWaMayaiByUserItsSelfView'),
+    path('DeleteKumbushoLaUatamiajiWaMayaiByUserItsSelfView/<int:pk>/delete/', views.DeleteKumbushoLaUatamiajiWaMayaiByUserItsSelfView.as_view(), name='DeleteKumbushoLaUatamiajiWaMayaiByUserItsSelfView'),
 
     #--------KUMBUSHO LA MABADILIKO YA LISHE
     path('AddKumbushoLaMabadilikoYaLisheView/', views.AddKumbushoLaMabadilikoYaLisheView.as_view(), name='AddKumbushoLaMabadilikoYaLisheView'),
     path('GetAllKumbushoLaMabadilikoYaLisheView/', views.GetAllKumbushoLaMabadilikoYaLisheView.as_view(), name='GetAllKumbushoLaMabadilikoYaLisheView'),
-    path('DeleteKumbushoLaMabadilikoYaLisheByUserItsSelfView/', views.DeleteKumbushoLaMabadilikoYaLisheByUserItsSelfView.as_view(), name='DeleteKumbushoLaMabadilikoYaLisheByUserItsSelfView'),
-
+    #path('DeleteKumbushoLaMabadilikoYaLisheByUserItsSelfView/', views.DeleteKumbushoLaMabadilikoYaLisheByUserItsSelfView.as_view(), name='DeleteKumbushoLaMabadilikoYaLisheByUserItsSelfView'),
+    path('DeleteKumbushoLaMabadilikoYaLisheByUserItsSelfView/<int:pk>/delete/', views.DeleteKumbushoLaMabadilikoYaLisheByUserItsSelfView.as_view(), name='DeleteKumbushoLaMabadilikoYaLisheByUserItsSelfView'),
 
     #----------------DUKA LAKO------------------
     path('AddDukaLakoView/', views.AddDukaLakoView.as_view(), name='AddDukaLakoView'),
@@ -76,6 +76,10 @@ urlpatterns = [
 
     path('GetAllDukaLakeByClickingPostedProductView/', views.GetAllDukaLakeByClickingPostedProductView.as_view(), name='GetAllDukaLakeByClickingPostedProductView'),
     path('GetAllDukaLakoPostedByUserItselfView/', views.GetAllDukaLakoPostedByUserItselfView.as_view(), name='GetAllDukaLakoPostedByUserItselfView'),
+
+    path('RetrieveDukaLakoPostView/<int:pk>/', views.RetrieveDukaLakoPostView.as_view(), name='RetrieveDukaLakoPostView'),
+    path('UpdateDukaLakoPostView/<int:pk>/edit/', views.UpdateDukaLakoPostView.as_view(), name='UpdateDukaLakoPostView'),
+    path('DeleteDukaLakoPostView/<int:pk>/delete/', views.DeleteDukaLakoPostView.as_view(), name='DeleteDukaLakoPostView'),
 
     path('ToggleLikeView/<int:pk>/', views.ToggleLikeView.as_view(), name='ToggleLikeView'),
     path('AddMaoniView/', views.AddMaoniView.as_view(), name='AddMaoniView'),

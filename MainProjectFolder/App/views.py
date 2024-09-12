@@ -4,8 +4,8 @@ from django.core.paginator import Paginator
 from django.db.models import Count
 from django.contrib import messages
 from .models import *
-import numpy as np
-from scipy.optimize import linprog
+#import numpy as np
+#from scipy.optimize import linprog
 from django.http import HttpResponse
 from datetime import datetime, timedelta
 #import pyotp
@@ -994,37 +994,19 @@ class GetAllKumbushoUsafishajiBandaView(APIView):
 
 
 
-#hii ilikuwa ya kudelete cart items
+#
+
 class DeleteKumbushoUsafishajiBandaByUserItsSelfView(APIView):
     authentication_classes = [TokenAuthentication]
     permission_classes = [IsAuthenticated]
 
-    def delete(self, request):
-        KumbushoID = request.query_params.get("KumbushoID")
-
-        user = request.user.username
-
+    def delete(self, request, pk):
         try:
-            item = KumbushoUsafishajiBanda.objects.get(
-                id=KumbushoID
-            )
-
-            # Increase the product quantity back to stock
-            # cart_item.product.ProductQuantity += cart_item.quantity
-            # cart_item.product.save()
-
-            item.delete()
-
-            return Response({"success": "Data Deleted Successfully"}, status=status.HTTP_204_NO_CONTENT)
-
+            post = KumbushoUsafishajiBanda.objects.get(id=pk, username=request.user.username)
+            post.delete()
+            return Response({'message': 'Post deleted successfully'}, status=status.HTTP_200_OK)
         except KumbushoUsafishajiBanda.DoesNotExist:
-            return Response({"error": "Item not Found"}, status=status.HTTP_404_NOT_FOUND)
-
-        except Exception as e:
-            return Response({"error": str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
-
-
-
+            return Response({'error': 'Post not found'}, status=status.HTTP_404_NOT_FOUND)
 
 
 
@@ -1126,36 +1108,17 @@ class GetAllKumbushoLaChanjoView(APIView):
 
 
 
-#hii ilikuwa ya kudelete cart items
 class DeleteKumbushoLaChanjoByUserItsSelfView(APIView):
     authentication_classes = [TokenAuthentication]
     permission_classes = [IsAuthenticated]
 
-    def delete(self, request):
-        KumbushoID = request.query_params.get("KumbushoID")
-
-        user = request.user.username
-
+    def delete(self, request, pk):
         try:
-            item = KumbushoLaChanjo.objects.get(
-                id=KumbushoID
-            )
-
-            # Increase the product quantity back to stock
-            # cart_item.product.ProductQuantity += cart_item.quantity
-            # cart_item.product.save()
-
-            item.delete()
-
-            return Response({"success": "Data Deleted Successfully"}, status=status.HTTP_204_NO_CONTENT)
-
+            post = KumbushoLaChanjo.objects.get(id=pk, username=request.user.username)
+            post.delete()
+            return Response({'message': 'Post deleted successfully'}, status=status.HTTP_200_OK)
         except KumbushoLaChanjo.DoesNotExist:
-            return Response({"error": "Item not Found"}, status=status.HTTP_404_NOT_FOUND)
-
-        except Exception as e:
-            return Response({"error": str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
-
-
+            return Response({'error': 'Post not found'}, status=status.HTTP_404_NOT_FOUND)
 
 
 
@@ -1266,34 +1229,18 @@ class GetAllKumbushoLaUatamiajiWaMayaiView(APIView):
 
 
 
-#hii ilikuwa ya kudelete cart items
+
 class DeleteKumbushoLaUatamiajiWaMayaiByUserItsSelfView(APIView):
     authentication_classes = [TokenAuthentication]
     permission_classes = [IsAuthenticated]
 
-    def delete(self, request):
-        KumbushoID = request.query_params.get("KumbushoID")
-
-        user = request.user.username
-
+    def delete(self, request, pk):
         try:
-            item = KumbushoLaUatamiajiWaMayai.objects.get(
-                id=KumbushoID
-            )
-
-            # Increase the product quantity back to stock
-            # cart_item.product.ProductQuantity += cart_item.quantity
-            # cart_item.product.save()
-
-            item.delete()
-
-            return Response({"success": "Data Deleted Successfully"}, status=status.HTTP_204_NO_CONTENT)
-
+            post = KumbushoLaUatamiajiWaMayai.objects.get(id=pk, username=request.user.username)
+            post.delete()
+            return Response({'message': 'Post deleted successfully'}, status=status.HTTP_200_OK)
         except KumbushoLaUatamiajiWaMayai.DoesNotExist:
-            return Response({"error": "Item not Found"}, status=status.HTTP_404_NOT_FOUND)
-
-        except Exception as e:
-            return Response({"error": str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+            return Response({'error': 'Post not found'}, status=status.HTTP_404_NOT_FOUND)
 
 
 
@@ -1317,6 +1264,9 @@ class AddKumbushoLaMabadilikoYaLisheView(APIView):
         data['UmriWaKukuKwaSiku'] = UmriWaKukuKwaSiku
         data['UmriWaKukuKwaWiki'] = UmriWaKukuKwaWiki
         data['AinaYaKuku'] = AinaYaKuku
+
+        data['UmriWaKukuKwaWiki_KwaMahesabuTu'] = UmriWaKukuKwaWiki
+        data['UmriWaKukuKwaSiku_KwaMahesabuTu'] = UmriWaKukuKwaSiku
         
 
         data['username'] = user.username
@@ -1390,35 +1340,18 @@ class GetAllKumbushoLaMabadilikoYaLisheView(APIView):
 
 
 #hii ilikuwa ya kudelete cart items
+
 class DeleteKumbushoLaMabadilikoYaLisheByUserItsSelfView(APIView):
     authentication_classes = [TokenAuthentication]
     permission_classes = [IsAuthenticated]
 
-    def delete(self, request):
-        KumbushoID = request.query_params.get("KumbushoID")
-
-        user = request.user.username
-
+    def delete(self, request, pk):
         try:
-            item = KumbushoLaMabadilikoYaLishe.objects.get(
-                id=KumbushoID
-            )
-
-            # Increase the product quantity back to stock
-            # cart_item.product.ProductQuantity += cart_item.quantity
-            # cart_item.product.save()
-
-            item.delete()
-
-            return Response({"success": "Data Deleted Successfully"}, status=status.HTTP_204_NO_CONTENT)
-
+            post = KumbushoLaMabadilikoYaLishe.objects.get(id=pk, username=request.user.username)
+            post.delete()
+            return Response({'message': 'Post deleted successfully'}, status=status.HTTP_200_OK)
         except KumbushoLaMabadilikoYaLishe.DoesNotExist:
-            return Response({"error": "Item not Found"}, status=status.HTTP_404_NOT_FOUND)
-
-        except Exception as e:
-            return Response({"error": str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
-
-
+            return Response({'error': 'Post not found'}, status=status.HTTP_404_NOT_FOUND)
 
 
 
@@ -1473,9 +1406,9 @@ class AddDukaLakoView(APIView):
         myemail = "juniordimoso8@gmail.com"
 
         data['profile_image'] = user.profile_image
-        data['LevelImage'] = user.LevelImage
+        #data['LevelImage'] = user.LevelImage
         
-
+        data['TickStatus'] = user.Tick
         data['company_name'] = user.company_name
         data['username'] = user.username
         data['email'] = user.email
@@ -1848,8 +1781,47 @@ class GetAllDukaLakoPostedByUserItselfView(APIView):
 
 
 
+# View for retrieving a post's details
+class RetrieveDukaLakoPostView(APIView):
+    authentication_classes = [TokenAuthentication]
+    permission_classes = [IsAuthenticated]
 
+    def get(self, request, pk):
+        try:
+            post = DukaLako.objects.get(id=pk, username=request.user.username)
+            serializer = DukaLakoSerializer(post)
+            return Response(serializer.data, status=status.HTTP_200_OK)
+        except DukaLako.DoesNotExist:
+            return Response({'error': 'Post not found'}, status=status.HTTP_404_NOT_FOUND)
 
+# Update Post View
+class UpdateDukaLakoPostView(APIView):
+    authentication_classes = [TokenAuthentication]
+    permission_classes = [IsAuthenticated]
+
+    def put(self, request, pk):
+        try:
+            post = DukaLako.objects.get(id=pk, username=request.user.username)
+            serializer = DukaLakoSerializer(post, data=request.data, partial=True)
+            if serializer.is_valid():
+                serializer.save()
+                return Response(serializer.data, status=status.HTTP_200_OK)
+            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        except DukaLako.DoesNotExist:
+            return Response({'error': 'Post not found'}, status=status.HTTP_404_NOT_FOUND)
+
+# Delete Post View
+class DeleteDukaLakoPostView(APIView):
+    authentication_classes = [TokenAuthentication]
+    permission_classes = [IsAuthenticated]
+
+    def delete(self, request, pk):
+        try:
+            post = DukaLako.objects.get(id=pk, username=request.user.username)
+            post.delete()
+            return Response({'message': 'Post deleted successfully'}, status=status.HTTP_200_OK)
+        except DukaLako.DoesNotExist:
+            return Response({'error': 'Post not found'}, status=status.HTTP_404_NOT_FOUND)
 
 
 
@@ -22562,76 +22534,79 @@ class GetAllVyakulaOrderItemsView(APIView):
                 #     |(Remained_CP*X)+(Remained_Wanga*Y)+(Remained_Mafuta*Z)|
 
                 
-                
-                # SAMPLE EQUATION:
-                #   2x+3y+5z>=5
-                #   4x+4y+7z>=20
-                #   8x+y+z>=7
-                #   x+y+z=35
-                #   Objective function;
-                #   Min V= 4x+5y+5.1
+                # #---------------------MWANZO HAPA----------------
+                # # SAMPLE EQUATION:
+                # #   2x+3y+5z>=5
+                # #   4x+4y+7z>=20
+                # #   8x+y+z>=7
+                # #   x+y+z=35
+                # #   Objective function;
+                # #   Min V= 4x+5y+5.1
 
-                # Coefficients of the objective function
-                #c_min = [4, 5, 5.1]
-                c_min = [Remained_CP, Remained_Wanga, Remained_Mafuta]
+                # # Coefficients of the objective function
+                # #c_min = [4, 5, 5.1]
+                # c_min = [Remained_CP, Remained_Wanga, Remained_Mafuta]
 
-                # Coefficients of the inequality constraints (converted to <= form)
+                # # Coefficients of the inequality constraints (converted to <= form)
+                # # A_ineq = [
+                # #     [-2, -3, -5],
+                # #     [-4, -4, -7],
+                # #     [-8, -1, -1]
+                # # ]
                 # A_ineq = [
-                #     [-2, -3, -5],
-                #     [-4, -4, -7],
-                #     [-8, -1, -1]
+                #     [-kiasi_cha_CP_Mashudu_ya_alizeti, -kiasi_cha_CP_Pumba_za_mahindi, -kiasi_cha_CP_Dagaa],
+                #     [-kiasi_cha_Wanga_Mashudu_ya_alizeti, -kiasi_cha_Wanga_Pumba_za_mahindi, -kiasi_cha_Wanga_Dagaa],
+                #     [-kiasi_cha_Mafuta_Mashudu_ya_alizeti, -kiasi_cha_Mafuta_Pumba_za_mahindi, -kiasi_cha_Mafuta_Dagaa]
                 # ]
-                A_ineq = [
-                    [-kiasi_cha_CP_Mashudu_ya_alizeti, -kiasi_cha_CP_Pumba_za_mahindi, -kiasi_cha_CP_Dagaa],
-                    [-kiasi_cha_Wanga_Mashudu_ya_alizeti, -kiasi_cha_Wanga_Pumba_za_mahindi, -kiasi_cha_Wanga_Dagaa],
-                    [-kiasi_cha_Mafuta_Mashudu_ya_alizeti, -kiasi_cha_Mafuta_Pumba_za_mahindi, -kiasi_cha_Mafuta_Dagaa]
-                ]
-                # b_ineq = [-5, -20, -7]
-                b_ineq = [-Remained_CP, -Remained_Wanga, -Remained_Mafuta]
+                # # b_ineq = [-5, -20, -7]
+                # b_ineq = [-Remained_CP, -Remained_Wanga, -Remained_Mafuta]
 
-                # Coefficients for the equality constraint
+                # # Coefficients for the equality constraint
+                # # A_eq = [[1, 1, 1]]
+                # # b_eq = [35]
+
                 # A_eq = [[1, 1, 1]]
-                # b_eq = [35]
+                # b_eq = [constant_kilos_not_change]
 
-                A_eq = [[1, 1, 1]]
-                b_eq = [constant_kilos_not_change]
+                # # Define bounds for each variable: (min, max)
+                # # In this case, 0 < x, y, z < 15
+                # bounds = [(0, constant_kilos_not_change), (0, constant_kilos_not_change), (0, constant_kilos_not_change)]
 
-                # Define bounds for each variable: (min, max)
-                # In this case, 0 < x, y, z < 15
-                bounds = [(0, constant_kilos_not_change), (0, constant_kilos_not_change), (0, constant_kilos_not_change)]
+                # # Solve the linear programming problem for minimization with an equality constraint
+                # result_min_eq = linprog(
+                #     c_min, 
+                #     A_ub=A_ineq, 
+                #     b_ub=b_ineq, 
+                #     A_eq=A_eq, 
+                #     b_eq=b_eq,
+                #     bounds=bounds,  # Insert bounds here 
+                #     method='highs'
+                # )
 
-                # Solve the linear programming problem for minimization with an equality constraint
-                result_min_eq = linprog(
-                    c_min, 
-                    A_ub=A_ineq, 
-                    b_ub=b_ineq, 
-                    A_eq=A_eq, 
-                    b_eq=b_eq,
-                    bounds=bounds,  # Insert bounds here 
-                    method='highs'
-                )
+                # if result_min_eq.success:
 
-                if result_min_eq.success:
+                #     # Extract the values of x, y, z and the minimum objective function value
+                #     x_min, y_min, z_min = result_min_eq.x
+                #     v_min = result_min_eq.fun
 
-                    # Extract the values of x, y, z and the minimum objective function value
-                    x_min, y_min, z_min = result_min_eq.x
-                    v_min = result_min_eq.fun
+                #     Mashudu_Ya_Alizeti_New_Value = x_min
+                #     Pumba_Za_Mahindi_New_Value = y_min
+                #     Dagaa_New_Value = z_min
 
-                    Mashudu_Ya_Alizeti_New_Value = x_min
-                    Pumba_Za_Mahindi_New_Value = y_min
-                    Dagaa_New_Value = z_min
+                #     # Print the results
+                #     print(f"Minimum value of V: {v_min:.2f}")
+                #     print(f"Mashudu_Ya_Alizeti_New_Value = {Mashudu_Ya_Alizeti_New_Value}, Pumba_Za_Mahindi_New_Value = {Pumba_Za_Mahindi_New_Value}, Dagaa_New_Value = {Dagaa_New_Value}")
 
-                    # Print the results
-                    print(f"Minimum value of V: {v_min:.2f}")
-                    print(f"Mashudu_Ya_Alizeti_New_Value = {Mashudu_Ya_Alizeti_New_Value}, Pumba_Za_Mahindi_New_Value = {Pumba_Za_Mahindi_New_Value}, Dagaa_New_Value = {Dagaa_New_Value}")
+                # else:
+                #     # Print the result and the reason for failure
+                #     print("Optimization failed.")
+                #     print(result_min_eq)
+                #     Mashudu_Ya_Alizeti_New_Value=0
+                #     Pumba_Za_Mahindi_New_Value=0
+                #     Dagaa_New_Value=0
 
-                else:
-                    # Print the result and the reason for failure
-                    print("Optimization failed.")
-                    print(result_min_eq)
-                    Mashudu_Ya_Alizeti_New_Value=0
-                    Pumba_Za_Mahindi_New_Value=0
-                    Dagaa_New_Value=0
+
+                ##-----------------------MWISHO HAPA---------------
                 # Additional information
                 # print("\nCalculation details:")
                 # print(result_min_eq)

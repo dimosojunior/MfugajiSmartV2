@@ -89,6 +89,42 @@
 
 
 
+   <!-- mwanzo wa row -->
+<div class="row"> 
+
+<!-- mwanzo wa column -->
+   <div class="col-md-6" style="margin-top: 15px;margin-bottom: 15px;">
+
+  
+     <a href="{% url 'AllKumbushoLaChanjo_ISRED' %}" style="margin-top: 0px;">
+      <button  class="btn btn-primary mr-2">Angalia Wote Wanaotakiwa kukumbushwa Leo - <span style="color: red;font-weight: bold;"> {{count_wanaotumiwa}}</span></button>
+      </a>
+  </div>
+<!-- mwisho wa column -->
+
+
+<!-- mwanzo wa column -->
+   <div class="col-md-6" style="margin-top: 15px;margin-bottom: 15px;">
+
+  
+     <a href="{% url 'All_EmailSendCount_KumbushoLaChanjo' %}" style="margin-top: 0px;">
+      <button  class="btn btn-success mr-2">Angalia Taarifa Za Watuma Kumbusho <span style="color: red;font-weight: bold;"> </span></button>
+      </a>
+  </div>
+<!-- mwisho wa column -->
+
+
+
+</div>
+ <!-- mwisho wa row -->
+
+
+
+<hr>
+
+
+
+
   <h3 class="table-header-title">Kumbusho La Chanjo</h3>
 
 
@@ -193,7 +229,11 @@
               {% for x in queryset %}
                 <tr>
                 <td>{{forloop.counter}}</td>
-               <td>{{x.username}}</td>
+              {% if x.is_red %}
+               <td style="background-color: red;">{{x.username}}</td>
+                {% else %}
+                <td>{{x.username}}</td>
+               {% endif %} 
 
                <!--  <td>{{x.email}}</td>
 
@@ -226,9 +266,9 @@
 
              
                 <td>
-                  <a href="">
+                  <a href="{% url 'deleteKumbushoLaChanjo' x.id %}">
                     <span style="color: white;" class="">
-                      <button class="btn btn-success ">Angalia</button>
+                      <button class="btn btn-danger ">Futa</button>
                     </span>
                   </a>
 

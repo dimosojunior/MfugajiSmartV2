@@ -74,7 +74,7 @@ class MyUserSerializer(serializers.ModelSerializer):
     Mkoa = MikoaSerializer(many=False)
     Role = UserRoleSerializer(many=False)
     Level = LevelZaWafugajiSerializer(many=False)
-    Status = UserStatusSerializer(many=False)
+    # Status = UserStatusSerializer(many=False)
     AinaYaKuku = AinaZaKukuSerializer(many=False)
     class Meta:
         model = MyUser
@@ -125,7 +125,7 @@ class UserDataSerializer(serializers.ModelSerializer):
     Mkoa = MikoaSerializer(many=False)
     Role = UserRoleSerializer(many=False)
     Level = LevelZaWafugajiSerializer(many=False)
-    Status = UserStatusSerializer(many=False)
+    # Status = UserStatusSerializer(many=False)
     AinaYaKuku = AinaZaKukuSerializer(many=False)
     class Meta:
         model = MyUser

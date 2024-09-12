@@ -152,6 +152,26 @@ class KumbushoLaUatamiajiWaMayaiSearchForm(forms.ModelForm):
 
 
 
+class KumbushoLaMabadilikoYaLisheSearchForm(forms.ModelForm):
+	
+	username = forms.CharField(
+		required=False,
+	#label=False,
+		widget=forms.TextInput(attrs={'id' :'username', 'placeholder' : 'Ingiza Jina kamili'})
+
+	)
+	export_to_CSV = forms.BooleanField(required=False)
+	#start_date = forms.DateTimeField(required=False)
+	#end_date = forms.DateTimeField(required=False)
+
+
+	class Meta:
+		model = KumbushoLaMabadilikoYaLishe
+		fields =['username', 'export_to_CSV']
+
+
+
+
 
 class EmailSendCount_KumbushoUsafishajiBandaSearchForm(forms.ModelForm):
 	
@@ -187,3 +207,266 @@ class EmailSendCount_KumbushoLaUatamiajiWaMayaiSearchForm(forms.ModelForm):
 	class Meta:
 		model = EmailSendCount_KumbushoLaUatamiajiWaMayai
 		fields =['username', 'export_to_CSV']
+
+
+class EmailSendCount_KumbushoLaMabadilikoYaLisheSearchForm(forms.ModelForm):
+	
+	username = forms.CharField(
+		required=False,
+	#label=False,
+		widget=forms.TextInput(attrs={'id' :'username', 'placeholder' : 'Ingiza Jina kamili'})
+
+	)
+	export_to_CSV = forms.BooleanField(required=False)
+	#start_date = forms.DateTimeField(required=False)
+	#end_date = forms.DateTimeField(required=False)
+
+
+	class Meta:
+		model = EmailSendCount_KumbushoLaMabadilikoYaLishe
+		fields =['username', 'export_to_CSV']
+
+
+
+
+class EmailSendCount_KumbushoLaChanjoSearchForm(forms.ModelForm):
+	
+	username = forms.CharField(
+		required=False,
+	#label=False,
+		widget=forms.TextInput(attrs={'id' :'username', 'placeholder' : 'Ingiza Jina kamili'})
+
+	)
+	export_to_CSV = forms.BooleanField(required=False)
+	#start_date = forms.DateTimeField(required=False)
+	#end_date = forms.DateTimeField(required=False)
+
+
+	class Meta:
+		model = EmailSendCount_KumbushoLaChanjo
+		fields =['username', 'export_to_CSV']
+
+
+
+
+
+
+
+
+#-------------------DUKA LAKO----------------------
+class DukaLakoSearchForm(forms.ModelForm):
+	
+	username = forms.CharField(
+		required=False,
+	#label=False,
+		widget=forms.TextInput(attrs={'id' :'username', 'placeholder' : 'Ingiza Jina kamili'})
+
+	)
+	export_to_CSV = forms.BooleanField(required=False)
+	#start_date = forms.DateTimeField(required=False)
+	#end_date = forms.DateTimeField(required=False)
+
+
+	class Meta:
+		model = DukaLako
+		fields =['username', 'export_to_CSV']
+
+
+
+class MyUserSearchForm(forms.ModelForm):
+	
+	username = forms.CharField(
+		required=False,
+	#label=False,
+		widget=forms.TextInput(attrs={'id' :'username', 'placeholder' : 'Ingiza Jina kamili'})
+
+	)
+	export_to_CSV = forms.BooleanField(required=False)
+	#start_date = forms.DateTimeField(required=False)
+	#end_date = forms.DateTimeField(required=False)
+
+
+	class Meta:
+		model = MyUser
+		fields =['username', 'export_to_CSV']
+
+
+
+class MikoaSearchForm(forms.ModelForm):
+	
+	JinaLaMkoa = forms.CharField(
+		required=False,
+	#label=False,
+		widget=forms.TextInput(attrs={'id' :'username', 'placeholder' : 'Ingiza jina la mkoa'})
+
+	)
+	export_to_CSV = forms.BooleanField(required=False)
+	#start_date = forms.DateTimeField(required=False)
+	#end_date = forms.DateTimeField(required=False)
+
+
+	class Meta:
+		model = Mikoa
+		fields =['JinaLaMkoa', 'export_to_CSV']
+
+
+class WanunuziSearchForm(forms.ModelForm):
+	
+	username = forms.CharField(
+		required=False,
+	#label=False,
+		widget=forms.TextInput(attrs={'id' :'username', 'placeholder' : 'Ingiza jina la mnunuzi'})
+
+	)
+
+	Wilaya = forms.CharField(
+		required=False,
+	#label=False,
+		widget=forms.TextInput(attrs={'id' :'wilaya', 'placeholder' : 'Ingiza jina la wilaya'})
+
+	)
+
+	Message = forms.CharField(
+		required=True,
+	#label=False,
+		widget=forms.TextInput(attrs={'id' :'Message', 'placeholder' : 'Andika ujumbe'})
+
+	)
+
+	export_to_CSV = forms.BooleanField(required=False)
+	#start_date = forms.DateTimeField(required=False)
+	#end_date = forms.DateTimeField(required=False)
+
+
+	class Meta:
+		model = Wanunuzi
+		fields =['Message','username','Wilaya', 'export_to_CSV']
+
+
+class EmailSendCount_DukaLakoSearchForm(forms.ModelForm):
+	start_date = forms.DateTimeField(
+	    required=False, 
+	    widget=forms.DateTimeInput(attrs={'class': 'datepicker'}))
+
+	end_date = forms.DateTimeField(
+	    required=False, 
+	    widget=forms.DateTimeInput(attrs={'class': 'datepicker'}))
+
+	username = forms.CharField(
+		required=False,
+	#label=False,
+		widget=forms.TextInput(attrs={'id' :'username', 'placeholder' : 'Ingiza Jina kamili'})
+
+	)
+	export_to_CSV = forms.BooleanField(required=False)
+	#start_date = forms.DateTimeField(required=False)
+	#end_date = forms.DateTimeField(required=False)
+
+
+	class Meta:
+		model = EmailSendCount_DukaLako
+		fields =['username', 'export_to_CSV']
+
+
+
+class EmailSendCount_MyUserSearchForm(forms.ModelForm):
+	start_date = forms.DateTimeField(
+	    required=False, 
+	    widget=forms.DateTimeInput(attrs={'class': 'datepicker'}))
+
+	end_date = forms.DateTimeField(
+	    required=False, 
+	    widget=forms.DateTimeInput(attrs={'class': 'datepicker'}))
+
+	username = forms.CharField(
+		required=False,
+	#label=False,
+		widget=forms.TextInput(attrs={'id' :'username', 'placeholder' : 'Ingiza Jina kamili'})
+
+	)
+	export_to_CSV = forms.BooleanField(required=False)
+	#start_date = forms.DateTimeField(required=False)
+	#end_date = forms.DateTimeField(required=False)
+
+
+	class Meta:
+		model = EmailSendCount_MyUser
+		fields =['username', 'export_to_CSV']
+
+
+
+
+class MaoniSearchForm(forms.ModelForm):
+	
+	username = forms.CharField(
+		required=False,
+	#label=False,
+		widget=forms.TextInput(attrs={'id' :'username', 'placeholder' : 'Ingiza Jina kamili'})
+
+	)
+	export_to_CSV = forms.BooleanField(required=False)
+	#start_date = forms.DateTimeField(required=False)
+	#end_date = forms.DateTimeField(required=False)
+
+
+	class Meta:
+		model = Maoni
+		fields =['username', 'export_to_CSV']
+
+
+class EmailSendCount_MaoniSearchForm(forms.ModelForm):
+	start_date = forms.DateTimeField(
+	    required=False, 
+	    widget=forms.DateTimeInput(attrs={'class': 'datepicker'}))
+
+	end_date = forms.DateTimeField(
+	    required=False, 
+	    widget=forms.DateTimeInput(attrs={'class': 'datepicker'}))
+
+	username = forms.CharField(
+		required=False,
+	#label=False,
+		widget=forms.TextInput(attrs={'id' :'username', 'placeholder' : 'Ingiza Jina kamili'})
+
+	)
+	export_to_CSV = forms.BooleanField(required=False)
+	#start_date = forms.DateTimeField(required=False)
+	#end_date = forms.DateTimeField(required=False)
+
+
+	class Meta:
+		model = EmailSendCount_Maoni
+		fields =['username', 'export_to_CSV']
+
+
+
+
+class DukaLakoUpdateForm(forms.ModelForm):
+	
+	class Meta:
+		model = DukaLako
+		fields =[
+			
+			'Status'
+			]
+
+class MyUserUpdateForm(forms.ModelForm):
+	
+	class Meta:
+		model = MyUser
+		fields =[
+			
+			'Tick'
+			]
+
+
+class MaoniUpdateForm(forms.ModelForm):
+	
+	class Meta:
+		model = Maoni
+		fields =[
+			
+			'is_checked'
+			]
+
+

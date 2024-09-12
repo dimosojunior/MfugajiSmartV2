@@ -102,7 +102,7 @@
 --------------------------------------------------------------*/
 section {
   padding: 60px 0;
-  overflow: hidden;
+  /*overflow: hidden;*/
 }
 
 .section-bg {
@@ -661,13 +661,13 @@ input[type="submit"]{
 
 </head>
 
-<body style="background-color: #233329;overflow: hidden;">
+<body style="background-color: #233329;">
  
     
   <!-- ======= Hero Section ======= -->
   <section id="hero" class="d-flex align-items-center" style="background: linear-gradient(rgba(0,0,0,0.4),rgba(0,0,0,0.3)),url({% static 'MyTemplatesApp/assets/img/f1.jpg' %});background-size: cover;">
     <div class="container">
-     <h3 style="color: white;font-size: 40px;text-align: center;font-weight: bold;font-family: serif;margin-bottom: 25px;">MFUGAJI SMART</h3>
+     <h3 style="color: white;font-size: 40px;text-align: center;font-weight: bold;font-family: serif;margin-bottom: 25px;margin-top: 25px;">MFUGAJI SMART</h3>
      <center>
        <span style="color: white;text-align: center;font-size: 23px;background-color: green;padding: 10px;margin-top: 25px;border-radius: 10px;border-top-right-radius: 0px;">Fuga Kidijitali</span>
        </center>
@@ -688,10 +688,10 @@ input[type="submit"]{
         <div class="row">
           <div class="col-lg-4 d-flex align-items-stretch">
             <div class="content" >
-              <h3>MFUGAJI SMART PANEL</h3>
+              <h3>MFUGAJI SMART PANNEL</h3>
               {% if user.is_authenticated %}
               <p>
-               Karibu Mfugaji Smart, kwasasa umeingia kwa kutumia jina la {{user.username}}
+              Hello {{user.username}}, karibu Mfugaji Smart Pannel. Tafadhali tunza neno siri lako usimshirikishe mtu yeyote bila utaratibu maalumu wa ofisi.
                     </p>
                     {% else %}
                     <p>

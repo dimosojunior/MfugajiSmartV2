@@ -1,0 +1,462 @@
+
+{% extends 'MyTemplatesApp/base.html' %}
+{% load static %}
+
+{% load custom_filters %}
+
+
+
+{% block content %}
+
+<!DOCTYPE html>
+<html>
+<head>
+     <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <title>Duka Detail Page</title>
+    <style type="text/css">
+      
+        body{
+            /*display: flex;*/
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            /*background: #333;*/
+        }
+        .container{
+           
+            
+            /*padding: 80px 40px;*/
+            justify-content: center;
+            align-items: center;
+           
+            margin-top: 0px;
+            
+        }
+
+     .display-text{
+        
+        background-color: #333;
+        /*margin-right: 150px;
+        margin-left: 150px;*/
+        border-width: 2px;
+        border-color: white;
+        border: 1px solid white;
+        padding: 20px;
+        border-radius: 10px;
+        margin-bottom: 10px;
+       /* margin: 10px;*/
+        
+     }
+     .display-text-2{
+        margin-left: 20px;
+        margin-top: 10px;
+
+     }
+
+     .fees-informations{
+        color: white;
+        text-align: center;
+        font-size: 16px;
+        font-weight: bold;
+        margin-top: 10px;
+        margin-bottom: 30px;
+     }
+
+
+    </style>
+</head>
+<body class="body-container">
+
+
+
+
+ <div class="container">
+
+
+
+
+
+ 
+
+ <div class="container">
+    
+
+
+
+
+
+
+
+
+<!-- mwanzo wa row -->
+<div class="row to-style-margin-top" style="width: 100%; display: flex;">
+
+
+  
+  <div class="col-md-2">
+     {% if user.is_admin %}
+  <a href="{% url 'deleteDukaLako' queryset.id %}" class="btn btn-danger mb-3"  style="margin-right: 20px;">
+                Mfute {{queryset.username}}</a>
+      {% endif %}
+    </div>
+
+    <div class="col-md-6">
+    
+    <button class="get-started-btn" data-bs-toggle="modal" data-bs-target="#login" style="margin-right: 20px;">
+       Mthibitishe {{queryset.username}}</button>
+     
+    </div>
+
+ 
+  
+</div>
+<!-- mwisho wa row -->
+
+
+
+
+
+              {% if messages %}
+    {% for message in messages %}
+     
+
+          <div class="alert alert-warning alert-dismissible fade show" role="alert" style="background-color: green;">
+  <strong style="font-size: 16px;color: white;">{{message}}</strong>
+  <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close" style="color: red;"></button>
+</div>
+    {% endfor %}
+  {% endif %}
+                  
+     
+
+
+
+
+
+
+
+
+
+<!-- mwanzo wa semister 01 -->
+
+
+
+  <!-- mwanzo wa row -->
+     <div id="semister1-Container" class="row student-informations-container" style="width: 100%;display: nonee;">
+
+      <h2 class="view-header-text" style="">Taarifa za posti ya  {{queryset.username}}</h2>
+
+        {% if queryset %}
+        
+        <div class="col-md-5 display-text">
+            
+       {% if queryset.profile_image %}
+         <img src="{{queryset.profile_image.url}}" class="large-img" style="border-radius: 300px;width: 70px;height: 70px;margin-bottom: 15px;">
+
+         {% else %}
+
+          <img src="{% static 'MyTemplatesApp/assets/img/profile.jpg' %}" class="large-img" style="border-radius: 300px;width: 70px;height: 70px;margin-bottom: 15px;">
+
+          {% endif %}
+
+         <h3 class="maelezo-text-dukalako">Namba Ya Simu : <span class="span-text-dukalako">{{queryset.phone}}</span></h3>
+
+         <h3 class="maelezo-text-dukalako">Email : <span class="span-text-dukalako">{{queryset.email}}</span></h3>
+        
+        {% if queryset.Location %}
+         <h3 class="maelezo-text-dukalako">Wilaya Anayoishi : <span class="span-text-dukalako">{{queryset.Location}}</span></h3>
+         {% endif %}
+
+         {% if queryset.company_name %}
+         <h3 class="maelezo-text-dukalako">Wilaya Anayoishi : <span class="span-text-dukalako">{{queryset.company_name}}</span></h3>
+         {% endif %}
+
+       {% if queryset.TickStatus == "Ndio Anastahili" %}
+        
+       <button style="border-radius: 10px;padding: 10px;background: green;color: white;font-size: 16px;margin-top: 15px;margin-right: 20px;">Ameidhinishwa</button> 
+
+       {% else %}
+       <button style="border-radius: 10px;padding: 10px;background: black;color: white;font-size: 16px;margin-top: 15px;margin-right: 20px;">Hajaidhinishwa</button> 
+
+       {% endif %}
+       
+
+
+       
+
+  
+
+  
+   </div>
+
+
+
+    <div class="col-md-6 display-text-2">
+
+       
+    {% if queryset.Title %}
+         <h3 class="maelezo-text-dukalako">Huduma: <span class="span-text-dukalako">{{queryset.Title}}</span></h3>
+         {% endif %}
+
+     {% if queryset.Created %}
+         <h3 class="maelezo-text-dukalako">Siku iliyopostiwa: <span class="span-text-dukalako">{{queryset.Created}}</span></h3>
+         {% endif %}
+
+          {% if queryset.Likes %}
+         <h3 class="maelezo-text-dukalako">Idadi Ya Like: <span class="span-text-dukalako">{{queryset.Likes}}</span></h3>
+         {% endif %}
+
+     
+        
+ {% if queryset.Maelezo %}
+        <h2 style="color: white;margin-top: 15px;margin-bottom: 15px;">Maelezo ya posti </h2>
+         <h3 class="maelezo-text-dukalako">{{queryset.Maelezo}} </h3>
+         {% endif %}
+
+{% if queryset.Status.Status == "Approved" %}
+ <button style="border-radius: 10px;padding: 10px;background: green;color: white;font-size: 16px;margin-top: 15px;margin-right: 20px;">Posti imeshahakikiwa</button>
+ {% else %} 
+ <button style="border-radius: 10px;padding: 10px;background: black;color: white;font-size: 16px;margin-top: 15px;margin-right: 20px;">Posti haijahakikiwa</button>
+{% endif %}
+
+        </div>
+
+   
+
+
+
+
+
+<!-- mwanzo wa row -->
+<div class="row row-ya-post-image" style="margin-top: 40px;">
+ {% if queryset.PichaYaPost %}
+  <h2 style="color: white;text-align: center;font-size: 18px;margin-bottom: 20px;">Picha za posti</h2>
+
+  {% else %}
+   <h2 style="color: white;text-align: center;font-size: 18px;margin-bottom: 20px;">{{queryset.username}} hajaweka picha yoyote</h2>
+  {% endif %}
+  
+  <!-- mwanzo wa column -->
+  {% if queryset.PichaYaPost %}
+<div class="col-md-6 column-ya-post-image">
+    <center>
+         <img src="{{queryset.PichaYaPost.url}}" class="images-za-posti" style="">
+  </center>
+  
+</div>
+{% endif %}
+ <!-- mwisho wa column -->
+
+  <!-- mwanzo wa column -->
+   {% if queryset.PichaYaPost2 %}
+<div class="col-md-6 column-ya-post-image">
+ 
+         <img src="{{queryset.PichaYaPost2.url}}" class="images-za-posti" style="">
+  
+  
+</div>
+{% endif %}
+ <!-- mwisho wa column -->
+
+</div>
+
+<!-- mwanzo wa row -->
+
+
+
+
+<!-- mwanzo wa row 2 -->
+<div class="row row-ya-post-image" style="margin-top: 40px;">
+
+  
+  <!-- mwanzo wa column -->
+  {% if queryset.PichaYaPost3 %}
+<div class="col-md-6 column-ya-post-image">
+    <center>
+         <img src="{{queryset.PichaYaPost3.url}}" class="images-za-posti" style="">
+  </center>
+  
+</div>
+{% endif %}
+ <!-- mwisho wa column -->
+
+  <!-- mwanzo wa column -->
+   {% if queryset.PichaYaPost4 %}
+<div class="col-md-6 column-ya-post-image">
+ 
+         <img src="{{queryset.PichaYaPost4.url}}" class="images-za-posti" style="">
+  
+  
+</div>
+{% endif %}
+ <!-- mwisho wa column -->
+
+</div>
+
+<!-- mwanzo wa row 2 -->
+
+
+
+
+
+<!-- mwanzo wa row 3 -->
+<div class="row row-ya-post-image" style="margin-top: 40px;">
+
+ 
+  <!-- mwanzo wa column -->
+  {% if queryset.PichaYaPost5 %}
+<div class="col-md-6 column-ya-post-image">
+    <center>
+         <img src="{{queryset.PichaYaPost5.url}}" class="images-za-posti" style="">
+  </center>
+  
+</div>
+{% endif %}
+ <!-- mwisho wa column -->
+
+
+</div>
+
+<!-- mwanzo wa row 3 -->
+
+
+
+
+   {% else %}
+   <center>
+       <h1 style="font-size: 16px;color: white;font-weight: bold;">Hakuna taarifa yoyote ya {{queryset.username}}</h1>
+   </center>
+
+   {% endif %}
+         
+     </div>
+     <!-- mwisho wa row -->
+
+
+
+
+<!-- <hr style="height: 10px;color: white;background-color: red;font-weight: bold;border: 2px solid red;border-width: 2px;">
+ -->
+
+
+
+
+
+<!-- mwisho wa semister ya 01 -->
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- Modal  for SIGNUP BUTTON -->
+
+
+<div class="modal fade" id="login" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <form method="POST" action="" enctype="multipart/form-data">
+        {% csrf_token %}
+
+      <div class="modal-header">
+        <h5 class="modal-title" id="staticBackdropLabel"> MFUGAJI SMART </h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body" style="font-size: 22px;">
+
+        
+         <div class="login">
+    <h2 style="font-size: 18px;font-family: sans-serif;">Thibitisha taarifa za {{queryset.username}}</h2>
+    
+     
+
+      <div class="user-box">
+        <!-- <input type="text" name="username" required>
+        <label>Jina Kamili</label> -->
+
+        {{form.Status}}
+      </div>
+
+     
+
+      
+
+     <!--  <p><input type="checkbox">Remember me <span>Forgot?</span></p> -->
+
+        <a href="" class="link-btn">
+        <span></span>
+        <span></span>
+        <span></span>
+        <span></span>
+
+
+
+       <!--  <button type="submit"  style="background-color: green;color: white;padding: 10px;padding-right: 20px;padding-left: 20px;font-size: 20px;border-radius: 10px;">Thibitisha</button> -->
+      </a>
+
+     <!--  <div class="options-02">
+                    <p>You don't have an account? <a href="" style="font-size: 18px;color: lightblue;font-weight: bold;text-decoration: none;">Sign Up</a></p>
+                </div> -->
+    
+  </div>
+
+</div> 
+<!-- mwisho wa modal-body -->
+
+
+      <div class="modal-footer">
+        <button type="submit" class="btn btn-success" style="font-size: 18px;margin-right: 20px;">Tibitisha</button>
+
+        <button type="button" class="btn btn-danger" data-bs-dismiss="modal" style="font-size: 18px;">Funga</button>
+
+
+
+
+             </div>
+             </form>
+    </div>
+  </div>
+</div>
+<!--MWISHO WA  Modal  for SIGNUP BUTTON -->
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+     </div>
+     <!-- mwisho wa container -->
+ 
+
+
+
+
+</div>
+
+<script>
+</script>
+</body>
+</html>
+
+{% endblock %}
